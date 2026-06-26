@@ -76,3 +76,4 @@ drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --pdf-engine r
 ## Документы
 
 - [Технический паспорт прототипа](docs/TECH_PASSPORT.md)
+- [Как продолжить работу дома на ноутбуке](docs/HANDOFF_HOME_LAPTOP.md)
