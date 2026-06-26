@@ -1,0 +1,387 @@
+<!doctype html>
+<html lang="ru">
+<head>
+  <meta charset="utf-8">
+  <title>Заключение офтальмолога</title>
+  <style>
+    @page {
+      size: A4;
+      margin: 12mm 12mm 14mm;
+    }
+
+    :root {
+      --ink: #172126;
+      --muted: #66737a;
+      --line: #d8e0e3;
+      --soft: #f4f7f6;
+      --accent: #0f766e;
+      --accent-soft: #e7f3f1;
+      --warning: #7c4a03;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      color: var(--ink);
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+      font-size: 9.6pt;
+      line-height: 1.35;
+      background: white;
+    }
+
+    .page {
+      width: 100%;
+    }
+
+    .topbar {
+      display: grid;
+      grid-template-columns: 1fr auto;
+      gap: 12mm;
+      align-items: start;
+      border-bottom: 1.4pt solid var(--ink);
+      padding-bottom: 4mm;
+      margin-bottom: 5mm;
+    }
+
+    h1 {
+      margin: 0 0 2mm;
+      font-size: 20pt;
+      line-height: 1.05;
+      font-weight: 720;
+      letter-spacing: 0;
+    }
+
+    .subtitle {
+      color: var(--muted);
+      font-size: 9pt;
+    }
+
+    .meta {
+      min-width: 54mm;
+      border-left: 2pt solid var(--accent);
+      padding-left: 4mm;
+      font-size: 8.8pt;
+    }
+
+    .meta-row,
+    .kv-row {
+      display: grid;
+      grid-template-columns: 24mm 1fr;
+      gap: 3mm;
+      margin: 0 0 1.3mm;
+    }
+
+    .label {
+      color: var(--muted);
+    }
+
+    .value {
+      font-weight: 600;
+    }
+
+    .band {
+      border: 1pt solid var(--line);
+      background: var(--soft);
+      padding: 3mm 4mm;
+      margin-bottom: 4mm;
+    }
+
+    .band-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4mm 8mm;
+    }
+
+    section {
+      break-inside: avoid;
+      margin: 0 0 4mm;
+    }
+
+    h2 {
+      margin: 0 0 2mm;
+      padding-bottom: 1mm;
+      border-bottom: 1pt solid var(--line);
+      color: var(--accent);
+      font-size: 10pt;
+      line-height: 1.2;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .columns {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 5mm;
+    }
+
+    ul {
+      margin: 0;
+      padding-left: 4.2mm;
+    }
+
+    li {
+      margin: 0 0 1mm;
+    }
+
+    table {
+      width: 100%;
+      border-collapse: collapse;
+      font-size: 9pt;
+    }
+
+    th,
+    td {
+      border-bottom: 1pt solid var(--line);
+      padding: 1.8mm 2mm;
+      text-align: left;
+      vertical-align: top;
+    }
+
+    th {
+      color: var(--muted);
+      font-size: 8pt;
+      font-weight: 650;
+      text-transform: uppercase;
+      letter-spacing: .03em;
+    }
+
+    .eye {
+      display: inline-flex;
+      min-width: 8mm;
+      justify-content: center;
+      border-radius: 2mm;
+      padding: .4mm 1.6mm;
+      background: var(--accent-soft);
+      color: var(--accent);
+      font-weight: 700;
+    }
+
+    .muted {
+      color: var(--muted);
+    }
+
+    .diagnosis {
+      border-left: 2pt solid var(--accent);
+      padding: 1.5mm 0 1.5mm 3mm;
+      margin-bottom: 1.5mm;
+      font-weight: 650;
+    }
+
+    .signature {
+      display: grid;
+      grid-template-columns: 1fr 56mm;
+      gap: 10mm;
+      align-items: end;
+      margin-top: 9mm;
+      color: var(--muted);
+      break-inside: avoid;
+    }
+
+    .signature-line {
+      border-top: 1pt solid var(--ink);
+      padding-top: 1.5mm;
+      color: var(--ink);
+      text-align: center;
+    }
+
+    .empty {
+      color: var(--muted);
+      font-style: italic;
+    }
+  </style>
+</head>
+<body>
+  <main class="page">
+    <header class="topbar">
+      <div>
+        <h1>Заключение офтальмолога</h1>
+        <div class="subtitle">Структурированная медицинская карта на основе данных ExamWriter</div>
+      </div>
+      <div class="meta">
+        <div class="meta-row"><div class="label">Дата</div><div class="value">{{ record.patient.exam_date or "не указана" }}</div></div>
+        <div class="meta-row"><div class="label">Источник</div><div class="value">{{ record.source_system }}</div></div>
+      </div>
+    </header>
+
+    <div class="band">
+      <div class="band-grid">
+        <div class="kv-row"><div class="label">Пациент</div><div class="value">{{ record.patient.full_name or "не указан" }}</div></div>
+        <div class="kv-row"><div class="label">Дата рождения</div><div class="value">{{ record.patient.birth_date or "не указана" }}</div></div>
+        {% if record.reason_for_visit %}
+        <div class="kv-row"><div class="label">Повод</div><div class="value">{{ record.reason_for_visit }}</div></div>
+        {% endif %}
+        {% if record.dominant_eye_display %}
+        <div class="kv-row"><div class="label">Статус</div><div class="value">{{ record.dominant_eye_display }}</div></div>
+        {% endif %}
+      </div>
+    </div>
+
+    <div class="columns">
+      <section>
+        <h2>Жалобы и анамнез</h2>
+        {% if record.complaints or record.history or record.family_history %}
+        <ul>
+          {% for item in record.complaints %}
+          <li>{{ item }}</li>
+          {% endfor %}
+          {% for item in record.history %}
+          <li>{{ item }}</li>
+          {% endfor %}
+          {% for item in record.family_history %}
+          <li>{{ item.display }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty">Данные не указаны</div>
+        {% endif %}
+      </section>
+
+      <section>
+        <h2>Текущий статус</h2>
+        {% if record.current_status %}
+        <ul>
+          {% for item in record.current_status %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% elif record.dominant_eye_display %}
+        <ul><li>{{ record.dominant_eye_display }}</li></ul>
+        {% else %}
+        <div class="empty">Данные не указаны</div>
+        {% endif %}
+      </section>
+    </div>
+
+    {% if record.visual_acuity %}
+    <section>
+      <h2>Зрительные функции</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Глаз</th>
+            <th>Без коррекции</th>
+            <th>С коррекцией</th>
+            <th>Вблизи</th>
+            <th>Примечание</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in record.visual_acuity %}
+          <tr>
+            <td><span class="eye">{{ item.eye }}</span></td>
+            <td>{{ item.distance_uncorrected or "-" }}</td>
+            <td>{{ item.distance_corrected or "-" }}</td>
+            <td>{{ item.near or "-" }}</td>
+            <td>{{ item.distance_note or item.notes or "-" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+    {% if record.refractions %}
+    <section>
+      <h2>Рефракция и коррекция</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Глаз</th>
+            <th>Тип</th>
+            <th>Коррекция</th>
+            <th>Острота</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in record.refractions %}
+          <tr>
+            <td><span class="eye">{{ item.eye }}</span></td>
+            <td>{{ item.kind }}</td>
+            <td>{{ item.formatted }}</td>
+            <td>{{ item.visual_acuity or "-" }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+    {% if record.keratometry %}
+    <section>
+      <h2>Кератометрия</h2>
+      <table>
+        <thead><tr><th>Глаз</th><th>Показатели</th></tr></thead>
+        <tbody>
+          {% for item in record.keratometry %}
+          <tr><td><span class="eye">{{ item.eye }}</span></td><td>{{ item.formatted }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </section>
+    {% endif %}
+
+    {% for section in record.clinical_sections %}
+    <section>
+      <h2>{{ section.title }}</h2>
+      {% if section.items %}
+      <ul>
+        {% for item in section.items %}
+        <li>{{ item }}</li>
+        {% endfor %}
+      </ul>
+      {% else %}
+      <div class="empty">Данные не указаны</div>
+      {% endif %}
+    </section>
+    {% endfor %}
+
+    {% if record.diagnoses %}
+    <section>
+      <h2>Диагноз</h2>
+      {% for item in record.diagnoses %}
+      <div class="diagnosis">{{ item.display }}</div>
+      {% endfor %}
+    </section>
+    {% endif %}
+
+    <div class="columns">
+      <section>
+        <h2>План</h2>
+        {% if record.plan %}
+        <ul>
+          {% for item in record.plan %}
+          <li>{{ item }}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty">Данные не указаны</div>
+        {% endif %}
+      </section>
+
+      <section>
+        <h2>Назначения и процедуры</h2>
+        {% if record.prescriptions or record.procedures %}
+        <ul>
+          {% for item in record.prescriptions %}
+          <li>{{ item.title }}{% if item.details %}: {{ item.details }}{% endif %}</li>
+          {% endfor %}
+          {% for item in record.procedures %}
+          <li>{{ item.title }}{% if item.details %}: {{ item.details }}{% endif %}</li>
+          {% endfor %}
+        </ul>
+        {% else %}
+        <div class="empty">Данные не указаны</div>
+        {% endif %}
+      </section>
+    </div>
+
+    <footer class="signature">
+      <div>Документ сформирован из структурированной модели. Поля с отсутствующими данными не дублируются.</div>
+      <div class="signature-line">{{ record.signature or "Врач-офтальмолог" }}</div>
+    </footer>
+  </main>
+</body>
+</html>

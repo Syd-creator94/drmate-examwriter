@@ -1,0 +1,44 @@
+[build-system]
+requires = ["setuptools>=68"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "drmate-examwriter"
+version = "0.1.0"
+description = "ExamWriter/OfficeMate RTF to normalized ophthalmology record, HTML and PDF."
+readme = "README.md"
+requires-python = ">=3.11,<3.13"
+dependencies = [
+    "jinja2>=3.1.4",
+    "pydantic>=2.8.0",
+    "playwright>=1.45.0",
+]
+
+[project.optional-dependencies]
+dev = [
+    "pytest>=8.2.0",
+]
+fallback-pdf = [
+    "weasyprint>=69.0",
+]
+reportlab-pdf = [
+    "reportlab>=5.0.0",
+]
+
+[project.scripts]
+drmate-examwriter = "dr_mate_cli:main"
+
+[tool.setuptools]
+package-dir = {"" = "src"}
+py-modules = ["dr_mate_cli"]
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+dr_mate_rendering = ["py.typed"]
+
+[tool.pytest.ini_options]
+pythonpath = ["src"]
+testpaths = ["tests"]
+addopts = "-q"
