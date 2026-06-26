@@ -72,3 +72,7 @@ drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --pdf-engine r
 - Подключить `watchdog` для hot-folder режима.
 - Добавить локальный FastAPI-сервис, если понадобится интеграция с интерфейсом.
 - Позже вынести Dr. Mate UI в React/TypeScript поверх той же модели.
+
+## Документы
+
+- [Технический паспорт прототипа](docs/TECH_PASSPORT.md)
