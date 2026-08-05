@@ -1,0 +1,30 @@
+# Direct and transitive constraints for Python 3.11/3.12 development and CI.
+# Refresh deliberately after dependency review; install with:
+#   python -m pip install -e ".[dev,reportlab-pdf]" -c requirements-dev.lock
+annotated-types==0.7.0
+build==1.2.2.post1
+charset-normalizer==3.4.7
+greenlet==3.5.2
+iniconfig==2.3.0
+Jinja2==3.1.6
+MarkupSafe==3.0.3
+mypy==1.17.1
+mypy_extensions==1.1.0
+packaging==26.2
+pathspec==1.1.1
+pillow==12.2.0
+playwright==1.60.0
+pluggy==1.6.0
+pydantic==2.13.4
+pydantic_core==2.46.4
+pyee==13.0.1
+Pygments==2.20.0
+pyproject_hooks==1.2.0
+pytest==9.1.1
+PyYAML==6.0.3
+reportlab==5.0.0
+ruff==0.12.5
+setuptools==83.0.0
+typing_extensions==4.15.0
+typing-inspection==0.4.2
+types-PyYAML==6.0.12.20260724

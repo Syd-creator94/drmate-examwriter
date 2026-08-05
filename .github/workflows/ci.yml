@@ -1,0 +1,76 @@
+name: CI
+
+on:
+  push:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  verify:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        python-version: ["3.11", "3.12"]
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: ${{ matrix.python-version }}
+          cache: pip
+          cache-dependency-path: requirements-dev.lock
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: "22"
+
+      - name: Install project
+        run: |
+          python -m pip install --upgrade pip
+          python -m pip install -e ".[dev,reportlab-pdf]" -c requirements-dev.lock
+
+      - name: Verify source
+        run: |
+          ruff check src tests
+          mypy src
+          python -m compileall -q src
+          node --check src/dr_mate_contact_lenses/web_static/app.js
+
+      - name: Run tests
+        run: python -m pytest
+
+      - name: Smoke-test ExamWriter output
+        run: >-
+          drmate-examwriter examples/examwriter_sample.rtf
+          --outdir "${RUNNER_TEMP}/drmate-output"
+          --pdf-engine reportlab
+
+      - name: Build distributions
+        run: python -m build
+
+      - name: Verify packaged knowledge data
+        run: |
+          python - <<'PY'
+          from pathlib import Path
+          from zipfile import ZipFile
+
+          wheel = next(Path("dist").glob("*.whl"))
+          with ZipFile(wheel) as archive:
+              names = archive.namelist()
+          products = [
+              name for name in names
+              if "share/drmate/knowledge/contact_lenses/products/xcel/" in name
+              and name.endswith(".yaml")
+          ]
+          assert len(products) == 16, products
+          assert any(name.endswith("sources/xcel.yaml") for name in names)
+          assert sum(
+              "share/drmate/knowledge/contact_lenses/rules/xcel/" in name
+              and name.endswith(".yaml")
+              for name in names
+          ) == 2
+          PY

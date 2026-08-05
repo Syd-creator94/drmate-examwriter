@@ -5,18 +5,23 @@ build-backend = "setuptools.build_meta"
 [project]
 name = "drmate-examwriter"
 version = "0.1.0"
-description = "ExamWriter/OfficeMate RTF to normalized ophthalmology record, HTML and PDF."
+description = "Ophthalmology workflow prototype with ExamWriter rendering and a contact-lens reference catalog."
 readme = "README.md"
 requires-python = ">=3.11,<3.13"
 dependencies = [
     "jinja2>=3.1.4",
     "pydantic>=2.8.0",
     "playwright>=1.45.0",
+    "PyYAML>=6.0.2",
 ]
 
 [project.optional-dependencies]
 dev = [
+    "build>=1.2.2,<2",
+    "mypy>=1.17,<2",
     "pytest>=8.2.0",
+    "ruff>=0.12,<1",
+    "types-PyYAML>=6.0.12",
 ]
 fallback-pdf = [
     "weasyprint>=69.0",
@@ -27,6 +32,7 @@ reportlab-pdf = [
 
 [project.scripts]
 drmate-examwriter = "dr_mate_cli:main"
+drmate-lenses = "dr_mate_contact_lenses.web:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -37,8 +43,39 @@ where = ["src"]
 
 [tool.setuptools.package-data]
 dr_mate_rendering = ["py.typed"]
+dr_mate_contact_lenses = [
+    "web_static/*.css",
+    "web_static/*.html",
+    "web_static/*.js",
+]
+
+[tool.setuptools.data-files]
+"share/drmate/knowledge/contact_lenses/sources" = [
+    "knowledge/contact_lenses/sources/*.yaml",
+]
+"share/drmate/knowledge/contact_lenses/products/xcel" = [
+    "knowledge/contact_lenses/products/xcel/*.yaml",
+]
+"share/drmate/knowledge/contact_lenses/rules/xcel" = [
+    "knowledge/contact_lenses/rules/xcel/*.yaml",
+]
 
 [tool.pytest.ini_options]
 pythonpath = ["src"]
 testpaths = ["tests"]
 addopts = "-q"
+
+[tool.ruff]
+target-version = "py311"
+line-length = 88
+
+[tool.ruff.lint]
+select = ["B", "E4", "E7", "E9", "F"]
+
+[tool.mypy]
+python_version = "3.11"
+files = ["src"]
+check_untyped_defs = true
+ignore_missing_imports = true
+no_implicit_optional = true
+warn_unused_configs = true

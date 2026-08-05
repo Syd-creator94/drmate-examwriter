@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from pathlib import Path
+from typing import Any
 from xml.sax.saxutils import escape
 
 from dr_mate_core.models import MedicalRecord
@@ -234,8 +235,8 @@ def _kv_table(rows, styles, colors, regular_font, bold_font, col_widths):
 
 
 def _two_column_kv(rows, styles):
-    cells = []
-    row = []
+    cells: list[list[Any]] = []
+    row: list[Any] = []
     for label, value in rows:
         row.append([_p(label, styles, "DrSmall"), _p(value, styles)])
         if len(row) == 2:

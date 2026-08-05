@@ -1,0 +1,55 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.xrp.toric"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "XRP"
+model: "Toric"
+lens_type: "soft_toric_extended_range"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+  - "xcel.xrp-toric.product-guide.2019-07-18"
+indications:
+  - code: "astigmatism"
+    label: "Astigmatism"
+    evidence:
+      - {source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, XRP Toric row"}
+parameters:
+  - parameter: "base_curve_mm"
+    allowed_values: {values: ["8.4", "8.8"], unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+  - parameter: "diameter_mm"
+    allowed_values: {values: ["14.4", "15.0"], unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+  - parameter: "power_d"
+    availability: {minimum: "-10.00", maximum: "10.00", step: "0.25", unit: "D"}
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+  - parameter: "cylinder_d"
+    availability: {minimum: "-5.75", maximum: "-0.75", step: "0.50", unit: "D"}
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+  - parameter: "axis_deg"
+    availability: {minimum: "0", maximum: "180", step: "5", unit: "degree"}
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+materials:
+  - material_id: "xcel.hioxifilcon-a-59"
+    display_name: "Hioxifilcon A 59%"
+    material_family: "hydrogel"
+    water_content_percent: "59"
+    trade_name: null
+    evidence:
+      - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+wear_schedule:
+  wear_indication: "daily_wear"
+  replacement_intervals: ["monthly"]
+  evidence:
+    - {source_revision_id: "xcel.xrp-toric.product-guide.2019-07-18", locator: "page 2, Product Specifications"}
+clinical_review_notes:
+  - "No product-specific fitting algorithm was found; this record is parameter-only and has no active ruleset."

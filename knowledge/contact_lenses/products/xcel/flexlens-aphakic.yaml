@@ -1,0 +1,49 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.flexlens.aphakic"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Flexlens"
+model: "Aphakic"
+lens_type: "custom_soft_aphakic"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+  - "xcel.flexlens-aphakic.rev-2024-04-22"
+indications:
+  - code: "aphakia"
+    label: "Adult or pediatric aphakia after cataract removal"
+    evidence:
+      - {source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22", locator: "page 1, indications"}
+parameters:
+  - parameter: "base_curve_mm"
+    availability: {minimum: "6.0", maximum: "11.0", step: "0.1", unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22", locator: "page 1, parameters"}
+  - parameter: "diameter_mm"
+    availability: {minimum: "10.0", maximum: "16.0", step: "0.1", unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22", locator: "page 1, parameters"}
+  - parameter: "power_d"
+    availability: {minimum: "0.00", maximum: "50.00", step: "0.25", unit: "D"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22", locator: "page 1, parameters"}
+parameter_conflicts:
+  - parameter: "power_d"
+    resolution_status: "resolved_by_source_precedence"
+    matching_policy: "use_active_claim"
+    active_source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22"
+    resolution_note: "The approved policy selects the newer 2024 product-specific sheet while retaining the 2022 claim."
+    claims:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        availability: {minimum: "0.00", maximum: "30.00", unit: "D"}
+        locator: "page 1, Flexlens Aphakic row"
+      - source_revision_id: "xcel.flexlens-aphakic.rev-2024-04-22"
+        availability: {minimum: "0.00", maximum: "50.00", step: "0.25", unit: "D"}
+        locator: "page 1, parameters"
+materials: []
+clinical_review_notes:
+  - "The 2024 sheet directs the practitioner to contact X-Cel for material options; no material is inferred."
+  - "Contraindications and pediatric material restrictions are deferred pending package-insert review."

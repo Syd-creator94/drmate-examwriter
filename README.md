@@ -1,80 +1,121 @@
-# Dr. Mate ExamWriter Prototype
+# Dr. Mate
 
-Первый самостоятельный прототип пайплайна для быстрой подготовки русскоязычного офтальмологического заключения из грязного RTF/TXT, который сохраняет ExamWriter/OfficeMate.
+Локальный прототип поддержки работы врача-офтальмолога. Репозиторий содержит
+два самостоятельных контура:
 
-## Целевая архитектура
+1. преобразование ExamWriter/OfficeMate RTF/TXT в нормализованную медицинскую
+   запись и русскоязычное HTML/PDF-заключение;
+2. проверяемый справочник контактных линз X-Cel с поиском, сравнением,
+   provenance и экспериментальным объяснимым matching engine.
+
+Проект находится на стадии прототипа. Он не является медицинской
+информационной системой, не выполняет автоматическое назначение линз и пока не
+валидирован для клинической эксплуатации на реальных данных.
+
+## Архитектура
 
 ```text
 ExamWriter RTF/TXT
   -> dr_mate_adapters.examwriter
   -> dr_mate_core.MedicalRecord
-  -> dr_mate_rendering HTML/CSS
-  -> Playwright/Chromium PDF
-  -> печать
+  -> dr_mate_rendering HTML/PDF
+
+Official manufacturer sources
+  -> reviewed YAML + provenance
+  -> dr_mate_contact_lenses catalog and rules
+  -> read-only API + local reference UI
 ```
 
-### Слои
+Matching для Flexlens PRS и ARC существует как отдельный библиотечный контур.
+Он не подключён к MedicalRecord или web API и не должен использоваться как
+рецепт или подтверждение клинической пригодности.
 
-- `dr_mate_core`: универсальная медицинская модель и нормализации. Этот слой не знает про ExamWriter.
-- `dr_mate_adapters.examwriter`: извлечение текста из RTF, эвристический парсинг ExamWriter и перевод в универсальную модель.
-- `dr_mate_rendering`: Jinja2-шаблон, CSS для A4 и HTML/PDF-вывод.
-- `dr_mate_cli.py`: маленькая CLI-команда для ручного запуска и будущего hot-folder режима.
+## Установка для разработки
 
-Такой разрез оставляет место для будущего Dr. Mate: можно добавить новый адаптер источника, не трогая модель, дизайн и PDF.
-
-## Быстрый старт
+Поддерживаются Python 3.11 и 3.12.
 
 ```bash
 python3.12 -m venv .venv
 . .venv/bin/activate
-python -m pip install -e ".[dev]"
-python -m playwright install chromium
-drmate-examwriter examples/examwriter_sample.rtf --outdir outputs
-pytest
+python -m pip install -e ".[dev,reportlab-pdf]" -c requirements-dev.lock
 ```
 
-Если Chromium еще не установлен, можно проверить парсинг и HTML без PDF:
+Для основного HTML/CSS -> PDF пути дополнительно нужен Chromium:
+
+```bash
+python -m playwright install chromium
+```
+
+## Запуск ExamWriter-конвейера
 
 ```bash
 drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --no-pdf
 ```
 
-В ограниченных средах, где Chromium не может стартовать, можно поставить запасной HTML/CSS -> PDF-движок:
+PDF через основной Playwright engine:
 
 ```bash
-python -m pip install -e ".[fallback-pdf]"
-drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --pdf-engine weasyprint
+drmate-examwriter examples/examwriter_sample.rtf --outdir outputs
 ```
 
-Если в среде заблокированы и браузеры, и системные библиотеки WeasyPrint, есть аварийный renderer напрямую из JSON-модели:
+PDF через автономный fallback:
 
 ```bash
-python -m pip install -e ".[reportlab-pdf]"
-drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --pdf-engine reportlab
+drmate-examwriter examples/examwriter_sample.rtf \
+  --outdir outputs \
+  --pdf-engine reportlab
 ```
 
-## Что уже нормализуется
+WeasyPrint остаётся дополнительным вариантом и требует системные библиотеки,
+описанные в его документации.
 
-- `RT`, `Right` -> `OD`; `LT`, `Left` -> `OS`; `Bilateral`, `BI` -> `OU`.
-- Даты вида `MM/DD/YYYY` -> `DD.MM.YYYY`.
-- `20/20`, `20/25`, `20/40` -> десятичная острота зрения.
-- `16"` -> `40 см`.
-- Оси форматируются как три цифры: `@ 85` -> `@ 085`, `x 50` -> `x 050`.
-- Диоптрии форматируются с двумя знаками: `-4.25 -0.50 x 050`.
-- `Dominant eye RT` -> `Доминантный глаз: правый`.
-- `OBSERVATIONS` в клинических блоках -> `(заметки)`.
-- Семейный анамнез приводится к клиническому виду, например `Myopia Sister` -> `Миопия: у сестры`.
-- Одинаковые диагнозы OD/OS объединяются в `OU`.
+## Запуск справочника контактных линз
 
-## Дальнейшие шаги
+```bash
+drmate-lenses
+```
 
-- Добавить реальные анонимизированные RTF из ExamWriter и расширить адаптер на фактические блоки.
-- Подключить `watchdog` для hot-folder режима.
-- Добавить локальный FastAPI-сервис, если понадобится интеграция с интерфейсом.
-- Позже вынести Dr. Mate UI в React/TypeScript поверх той же модели.
+По умолчанию открывается локальный read-only интерфейс на
+`http://127.0.0.1:8765/`. Он не принимает и не сохраняет пациентские данные.
 
-## Документы
+## Проверки
 
-- [Технический паспорт прототипа](docs/TECH_PASSPORT.md)
-- [Как продолжить работу дома на ноутбуке](docs/HANDOFF_HOME_LAPTOP.md)
-# main
+```bash
+pytest
+ruff check src tests
+mypy src
+python -m compileall -q src
+node --check src/dr_mate_contact_lenses/web_static/app.js
+python -m build
+```
+
+Те же проверки выполняет GitHub Actions для Python 3.11 и 3.12.
+
+## Структура
+
+- `src/dr_mate_core` — универсальные Pydantic-модели и нормализация;
+- `src/dr_mate_adapters/examwriter` — чтение и эвристический разбор RTF/TXT;
+- `src/dr_mate_rendering` — HTML и PDF renderers;
+- `src/dr_mate_contact_lenses` — схема каталога, loader, matcher, API и UI;
+- `knowledge/contact_lenses` — рецензируемые YAML-источники, продукты и rules;
+- `tests` — тесты ExamWriter, rendering, каталога, matching и web API;
+- `docs/project/status.md` — подтверждённое текущее состояние и ограничения.
+
+## Границы безопасности
+
+- Кандидат контактной линзы не является назначением.
+- Отсутствующие клинические значения не угадываются.
+- Факты производителя, клинические правила и результаты алгоритма сохраняются
+  как разные типы данных.
+- Идентифицируемые данные пациентов, credentials и частные клинические экспорты
+  не должны попадать в Git.
+- Перед работой с реальными пациентскими данными требуются отдельные решения по
+  доступу, хранению, шифрованию, удалению и аудиту.
+
+## Документация
+
+- [Обзор проекта](docs/project/overview.md)
+- [Текущий статус](docs/project/status.md)
+- [Функция каталога контактных линз](docs/features/contact-lens-knowledge-base.md)
+- [ADR каталога и matching](docs/adr/0001-contact-lens-knowledge-and-matching.md)
+- [Технический паспорт ExamWriter-прототипа](docs/TECH_PASSPORT.md)

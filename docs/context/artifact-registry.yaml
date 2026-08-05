@@ -1,0 +1,78 @@
+schema_version: "1.0"
+
+artifacts:
+  - id: "project-context"
+    path: "project-context.yaml"
+    title: "Project context"
+    authority: "Explicit accepted user decisions"
+    status: "active"
+    update_policy: "Update after accepted project governance, scope, risk, or source-of-truth changes"
+    triggers:
+      - "accepted project direction change"
+      - "canonical artifact set change"
+    dependencies: []
+    verification: "YAML parse and consistency review against registered artifacts"
+    required_when: "Always"
+
+  - id: "project-overview"
+    path: "docs/project/overview.md"
+    title: "Dr. Mate project overview"
+    authority: "Accepted intended direction plus repository evidence"
+    status: "active"
+    update_policy: "Update when accepted scope or verified system boundaries change"
+    triggers:
+      - "accepted product scope change"
+      - "verified architecture boundary change"
+    dependencies:
+      - "project-context"
+    verification: "Review intent claims against decisions and implementation claims against repository evidence"
+    required_when: "Always"
+
+  - id: "project-status"
+    path: "docs/project/status.md"
+    title: "Current implementation status"
+    authority: "Repository code, tests, configuration, and explicit accepted decisions"
+    status: "active"
+    update_policy: "Update after verified implementation or validation state changes"
+    triggers:
+      - "implementation change"
+      - "test or verification result"
+      - "new blocker or unknown"
+    dependencies:
+      - "project-context"
+      - "contact-lens-feature"
+      - "adr-0001-contact-lens-knowledge"
+    verification: "Repository inspection and recorded validation commands"
+    required_when: "During implementation"
+
+  - id: "contact-lens-feature"
+    path: "docs/features/contact-lens-knowledge-base.md"
+    title: "Contact-lens knowledge base and candidate matching"
+    authority: "Accepted product behavior and clinical safety constraints"
+    status: "active"
+    update_policy: "Update after accepted workflow, requirement, or safety-boundary changes"
+    triggers:
+      - "contact-lens feature scope change"
+      - "matching behavior change"
+      - "clinical review decision"
+    dependencies:
+      - "project-context"
+      - "adr-0001-contact-lens-knowledge"
+    verification: "Feature acceptance criteria and repository tests"
+    required_when: "While the contact-lens feature is active"
+
+  - id: "adr-0001-contact-lens-knowledge"
+    path: "docs/adr/0001-contact-lens-knowledge-and-matching.md"
+    title: "Contact-lens knowledge catalog and explainable matching architecture"
+    authority: "Accepted architectural decision"
+    status: "accepted"
+    update_policy: "Do not rewrite the decision; supersede it with a new ADR when governing architecture changes"
+    triggers:
+      - "catalog storage architecture replacement"
+      - "matching model replacement"
+      - "provenance or versioning architecture replacement"
+    dependencies:
+      - "project-context"
+      - "contact-lens-feature"
+    verification: "Implementation evidence listed in the ADR verification section"
+    required_when: "Contact-lens catalog or matching is implemented"

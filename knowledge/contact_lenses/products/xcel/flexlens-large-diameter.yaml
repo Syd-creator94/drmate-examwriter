@@ -1,0 +1,50 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.flexlens.large-diameter"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Flexlens"
+model: "Large Diameter"
+lens_type: "custom_soft_large_diameter"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+  - "xcel.flexlens-large-diameter.rev-2022-02-17"
+indications:
+  - code: "therapeutic_cornea_protection"
+    label: "Therapeutic corneal protection"
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, indications"}
+  - code: "megalocornea"
+    label: "Megalocornea"
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, indications"}
+  - code: "pterygium"
+    label: "Pterygium"
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, indications"}
+parameters:
+  - parameter: "base_curve_mm"
+    availability: {minimum: "7.0", maximum: "11.0", step: "0.1", unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, parameters"}
+  - parameter: "diameter_mm"
+    availability: {minimum: "16.1", maximum: "24.0", step: "0.1", unit: "mm"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, parameters"}
+  - parameter: "power_d"
+    availability: {minimum: "-30.00", maximum: "30.00", step: "0.25", unit: "D"}
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, parameters"}
+materials:
+  - material_id: "xcel.methafilcon-a-55"
+    display_name: "Methafilcon A 55%"
+    material_family: "hydrogel"
+    water_content_percent: "55"
+    trade_name: null
+    evidence:
+      - {source_revision_id: "xcel.flexlens-large-diameter.rev-2022-02-17", locator: "page 1, material"}
+clinical_review_notes:
+  - "Parameter-only record; therapeutic use remains a clinician decision and not an automatic recommendation."

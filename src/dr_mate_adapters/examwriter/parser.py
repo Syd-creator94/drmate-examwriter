@@ -1,13 +1,13 @@
 from __future__ import annotations
 
 import re
-from decimal import Decimal
 from pathlib import Path
 
 from dr_mate_adapters.examwriter.rtf import read_examwriter_source, rtf_to_text
 from dr_mate_core.models import (
     ClinicalSection,
     Diagnosis,
+    Eye,
     FamilyHistoryItem,
     Keratometry,
     MedicalRecord,
@@ -20,8 +20,6 @@ from dr_mate_core.models import (
 from dr_mate_core.normalizers import (
     decimal_or_none,
     diagnosis_display,
-    eye_display_ru,
-    format_axis,
     format_keratometry,
     format_refraction,
     group_diagnoses_by_eye,
@@ -150,7 +148,7 @@ def parse_examwriter_text(text: str, source_file: str | None = None) -> MedicalR
         history=_translate_list(sections.get("history", [])),
         family_history=family_history,
         current_status=_translate_list(sections.get("current_status", [])),
-        dominant_eye=immediate.get("dominant_eye") or None,
+        dominant_eye=normalize_eye_code(immediate.get("dominant_eye")),
         dominant_eye_display=immediate.get("dominant_eye_display") or None,
         visual_acuity=visual_acuity,
         refractions=refractions,
@@ -290,7 +288,7 @@ def _parse_keratometry(lines: list[str]) -> list[Keratometry]:
 
 
 def _parse_diagnoses(lines: list[str]) -> list[Diagnosis]:
-    by_eye: dict[str, list[str]] = {}
+    by_eye: dict[Eye, list[str]] = {}
     for line in lines:
         match = re.match(r"^(RT|LT|OD|OS|OU|BI|Bilateral|Right|Left)\b[:\s-]*(.+)$", line, flags=re.I)
         if not match:

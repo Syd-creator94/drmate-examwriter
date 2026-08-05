@@ -1,0 +1,42 @@
+schema_version: "1.0"
+
+project:
+  name: "Dr. Mate"
+  stage: "implementation"
+  operation_mode: "evolve"
+  domain: "ophthalmology clinical workflow and decision support"
+  primary_language: "Russian"
+
+risk:
+  level: "high"
+  regulated: "unknown"
+
+source_of_truth:
+  intended_direction: "Explicit user decisions and accepted canonical documents in docs/"
+  implementation_state: "Source code, tests, configuration, and Git history in this repository"
+  artifact_registry: "docs/context/artifact-registry.yaml"
+
+decision_policy:
+  acceptance_boundary: "An explicit user statement accepting a change preview or naming a decision as accepted"
+  adr_policy: "Required before decisions that govern clinical logic, catalog storage, privacy, security, major integrations, or other expensive-to-reverse architecture"
+  rejected_alternatives: "Retain when needed to prevent accidental reintroduction"
+
+verification_policy:
+  implementation_claims: "Must cite relevant code, tests, configuration, migration, or generated schema and state the checked scope"
+  evidence_recording: "docs/project/status.md and the affected feature specification"
+  unavailable_checks: "Mark explicitly as UNKNOWN or unavailable; never imply successful verification"
+
+documentation_policy:
+  artifact_selection: "Create only artifacts with a current consumer, an identified authority, and an update trigger"
+  canonical_locations: "docs/project for project state; docs/features for bounded feature behavior; future docs/adr for qualifying decisions"
+  duplication: "Prefer links to the canonical source over duplicated facts"
+
+context_update_policy:
+  triggers: "Accepted scope or architecture changes, verified implementation changes, clinical safety changes, new contradictions, or handoff needs"
+  routine_route: "For routine implementation, diagnosis, and evidence-backed status work, read only task-relevant source and context; project-context, registry, and change preview are not mandatory unless a governed boundary is affected"
+  change_preview: "Required before changes to accepted direction, architecture, privacy, security, clinical-safety rules, catalog provenance, ADRs, or the canonical artifact system; not required for authorized routine code changes or purely evidence-backed status synchronization"
+  status_and_handoff: "Update status only after verified work materially changes recorded project state; no standing handoff is currently maintained"
+
+timestamps:
+  created_at: "2026-07-28T13:11:16+05:00"
+  updated_at: "2026-08-05T18:22:19+05:00"

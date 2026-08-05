@@ -1,0 +1,662 @@
+schema_version: "1.0.0"
+ruleset_id: "xcel.flexlens.arc.prototype"
+ruleset_version: "0.1.0"
+status: "active"
+product_id: "xcel.flexlens.arc"
+rules:
+  - rule_id: "arc.candidate.published-indication"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "candidate_relevance"
+    authority: "manufacturer"
+    description: "Identify whether the case matches a published ARC indication."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    match_mode: "all"
+    conditions:
+      - field: "clinical_tags"
+        operator: "contains_any"
+        value:
+          - "keratoconus"
+          - "pellucid_marginal_degeneration"
+          - "corneal_transplant"
+          - "post_refractive_surgery"
+          - "irregular_cornea"
+    on_true:
+      status: "supported_candidate"
+      code: "published_indication_match"
+      message: "The case matches a published Flexlens ARC indication."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "no_published_indication_match"
+      message: "No published ARC indication matched; this is not a contraindication."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_indication_data"
+      message: "Clinical indication data is needed to assess ARC relevance."
+      details:
+        requested_fields: ["clinical_tags"]
+
+  - rule_id: "arc.parameter.power-range"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "parameter_compatibility"
+    authority: "manufacturer"
+    description: "Check requested sphere power against the published ARC range."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.power_d"
+        operator: "between_inclusive"
+        value: ["-20.00", "20.00"]
+    on_true:
+      status: "information"
+      code: "power_within_published_range"
+      message: "Requested power is within the published ARC range."
+      details:
+        published_range_d: ["-20.00", "20.00"]
+    on_false:
+      status: "outside_published_spec"
+      code: "power_outside_published_range"
+      message: "Requested power is outside the published ARC range."
+      details:
+        published_range_d: ["-20.00", "20.00"]
+    on_unknown: null
+
+  - rule_id: "arc.parameter.cylinder-range"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "parameter_compatibility"
+    authority: "manufacturer"
+    description: "Check requested cylinder against the published ARC range."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.cylinder_d"
+        operator: "between_inclusive"
+        value: ["-10.00", "-0.50"]
+    on_true:
+      status: "information"
+      code: "cylinder_within_published_range"
+      message: "Requested cylinder is within the published ARC range."
+      details:
+        published_range_d: ["-10.00", "-0.50"]
+    on_false:
+      status: "outside_published_spec"
+      code: "cylinder_outside_published_range"
+      message: "Requested cylinder is outside the published ARC range."
+      details:
+        published_range_d: ["-10.00", "-0.50"]
+    on_unknown: null
+
+  - rule_id: "arc.parameter.base-curve-range"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "parameter_compatibility"
+    authority: "manufacturer"
+    description: "Check requested base curve against the published ARC range."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.base_curve_mm"
+        operator: "between_inclusive"
+        value: ["6.0", "8.7"]
+    on_true:
+      status: "information"
+      code: "base_curve_within_published_range"
+      message: "Requested base curve is within the published ARC range."
+      details:
+        published_range_mm: ["6.0", "8.7"]
+    on_false:
+      status: "outside_published_spec"
+      code: "base_curve_outside_published_range"
+      message: "Requested base curve is outside the published ARC range."
+      details:
+        published_range_mm: ["6.0", "8.7"]
+    on_unknown: null
+
+  - rule_id: "arc.parameter.diameter-range"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "parameter_compatibility"
+    authority: "manufacturer"
+    description: "Check requested diameter against the published ARC range."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.diameter_mm"
+        operator: "between_inclusive"
+        value: ["13.0", "16.0"]
+    on_true:
+      status: "information"
+      code: "diameter_within_published_range"
+      message: "Requested diameter is within the published ARC range."
+      details:
+        published_range_mm: ["13.0", "16.0"]
+    on_false:
+      status: "outside_published_spec"
+      code: "diameter_outside_published_range"
+      message: "Requested diameter is outside the published ARC range."
+      details:
+        published_range_mm: ["13.0", "16.0"]
+    on_unknown: null
+
+  - rule_id: "arc.initial-trial.flat-k"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Select the published initial base curve for Flat K up to 49.00 D."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "measurements.flat_k_d"
+        operator: "less_than_or_equal"
+        value: "49.00"
+    on_true:
+      status: "information"
+      code: "initial_base_curve_8_3"
+      message: "For Flat K equal to or flatter than 49.00 D, start with base curve 8.3 mm."
+      details:
+        base_curve_mm: "8.3"
+    on_false: null
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_flat_k"
+      message: "Flat K is needed for the published ARC initial-base-curve mapping."
+      details:
+        requested_fields: ["measurements.flat_k_d"]
+
+  - rule_id: "arc.initial-trial.steep-k"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Select the published initial base curve for Flat K from 49.12 D."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "measurements.flat_k_d"
+        operator: "greater_than_or_equal"
+        value: "49.12"
+    on_true:
+      status: "information"
+      code: "initial_base_curve_7_7"
+      message: "For Flat K steeper than 49.12 D, start with base curve 7.7 mm."
+      details:
+        base_curve_mm: "7.7"
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.initial-trial.k-gap"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Do not infer a starting curve inside the unpublished Flat K gap."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "measurements.flat_k_d"
+        operator: "greater_than"
+        value: "49.00"
+      - field: "measurements.flat_k_d"
+        operator: "less_than"
+        value: "49.12"
+    on_true:
+      status: "manual_review"
+      code: "flat_k_between_published_thresholds"
+      message: "Flat K lies between the two published ARC thresholds; do not infer a starting curve."
+      details: {}
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.initial-trial.cylinder-up-to-2"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Use 0.30 mm initial center thickness through 2.00 D cylinder magnitude."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.cylinder_d"
+        operator: "greater_than_or_equal"
+        value: "-2.00"
+    on_true:
+      status: "information"
+      code: "initial_center_thickness_0_30"
+      message: "For cylinder magnitude up to 2.00 D, start with 0.30 mm center thickness."
+      details:
+        center_thickness_mm: "0.30"
+    on_false: null
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_requested_cylinder_for_thickness"
+      message: "Requested cylinder is needed for initial ARC center-thickness selection."
+      details:
+        requested_fields: ["requested_parameters.cylinder_d"]
+
+  - rule_id: "arc.initial-trial.cylinder-over-2"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Use 0.50 mm initial center thickness over 2.00 D cylinder magnitude."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "requested_parameters.cylinder_d"
+        operator: "less_than"
+        value: "-2.00"
+    on_true:
+      status: "information"
+      code: "initial_center_thickness_0_50"
+      message: "For cylinder magnitude over 2.00 D, start with 0.50 mm center thickness."
+      details:
+        center_thickness_mm: "0.50"
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.initial-trial.definitive-74-adjustment"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Apply the published Definitive 74% base-curve adjustment."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "selected_material_id"
+        operator: "equals"
+        value: "xcel.efrofilcon-a-74"
+    on_true:
+      status: "manual_review"
+      code: "definitive_74_steepen_base_curve"
+      message: "For a final ARC lens in Definitive 74%, the guide instructs steepening the base curve by 0.2 mm."
+      details:
+        base_curve_adjustment_mm: "-0.2"
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.fit.centered"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate ARC centration."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.centered"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "information"
+      code: "centration_within_guide"
+      message: "The ARC lens is well centered."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "centration_outside_guide"
+      message: "The ARC lens is not well centered."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_centration"
+      message: "Centration observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.movement"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate ARC movement."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.movement_mm"
+        operator: "between_inclusive"
+        value: ["0", "2.0"]
+    on_true:
+      status: "information"
+      code: "movement_within_guide"
+      message: "Movement is no more than the published 2 mm maximum."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "movement_outside_guide"
+      message: "Movement exceeds the published ARC criterion."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_movement"
+      message: "Movement observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.rotation"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate ARC rotation."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.rotation_deg"
+        operator: "between_inclusive"
+        value: ["0", "10"]
+    on_true:
+      status: "information"
+      code: "rotation_within_guide"
+      message: "Rotation is within the published ARC criterion."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "rotation_over_10_steepen"
+      message: "Rotation over 10 degrees requires the next steeper base curve."
+      details:
+        first_change: "steepen base curve"
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_rotation"
+      message: "Rotation observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.no-central-air-bubble"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate absence of a central air bubble."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.central_air_bubble"
+        operator: "equals"
+        value: false
+    on_true:
+      status: "information"
+      code: "no_central_air_bubble"
+      message: "No central air bubble is observed."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "central_air_bubble_present"
+      message: "A central air bubble is present; use the published troubleshooting sequence."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_central_air_bubble_observation"
+      message: "Central air bubble observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.no-lens-fold"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate absence of a lens fold."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.lens_fold"
+        operator: "equals"
+        value: false
+    on_true:
+      status: "information"
+      code: "no_lens_fold"
+      message: "No lens fold is observed."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "lens_fold_present"
+      message: "A lens fold is present; use the published troubleshooting sequence."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_lens_fold_observation"
+      message: "Lens fold observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.central-touch"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate the published slight central-touch criterion."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.central_touch"
+        operator: "equals"
+        value: "slight"
+    on_true:
+      status: "information"
+      code: "central_touch_within_guide"
+      message: "Slight central touch matches the published ARC criterion."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "central_touch_outside_guide"
+      message: "Central touch does not match the published slight-touch criterion."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_central_touch"
+      message: "Central-touch observation is missing."
+      details: {}
+
+  - rule_id: "arc.fit.over-refraction-va"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Compare over-refraction acuity with best achievable acuity."
+    source_revision_ids:
+      - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+    conditions:
+      - field: "observations.over_refraction_va_at_least_best_achievable"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "information"
+      code: "over_refraction_va_within_guide"
+      message: "Over-refraction acuity is at least equal to best achievable acuity."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "over_refraction_va_outside_guide"
+      message: "Over-refraction acuity is below best achievable acuity."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_over_refraction_va_comparison"
+      message: "The over-refraction acuity comparison is missing."
+      details: {}
+
+  - rule_id: "arc.troubleshooting.high-riding"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published changes for a high-riding ARC lens."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.position"
+        operator: "equals"
+        value: "high_riding"
+    on_true:
+      status: "manual_review"
+      code: "high_riding_adjustments"
+      message: "Flatten base curve 0.3 mm; if needed, decrease diameter 0.5 mm."
+      details:
+        changes: ["flatten BC 0.3 mm", "decrease diameter 0.5 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.low-riding"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published changes for a low-riding ARC lens."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.position"
+        operator: "equals"
+        value: "low_riding"
+    on_true:
+      status: "manual_review"
+      code: "low_riding_adjustments"
+      message: "Steepen base curve 0.3 mm; if needed, increase diameter 0.5 mm."
+      details:
+        changes: ["steepen BC 0.3 mm", "increase diameter 0.5 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.excessive-movement"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published changes for excessive ARC movement."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.excessive_movement"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "excessive_movement_adjustments"
+      message: "Steepen base curve 0.3 mm; if needed, increase diameter 0.5 mm."
+      details:
+        changes: ["steepen BC 0.3 mm", "increase diameter 0.5 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.central-air-bubble"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published changes for a central air bubble."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.central_air_bubble"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "central_air_bubble_adjustments"
+      message: "Flatten base curve 0.3 mm; if needed, decrease diameter 0.5 mm."
+      details:
+        changes: ["flatten BC 0.3 mm", "decrease diameter 0.5 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.lens-fold"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published changes for an ARC lens fold."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.lens_fold"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "lens_fold_adjustments"
+      message: "Steepen base curve 0.3 mm; if needed, increase diameter 0.5 mm."
+      details:
+        changes: ["steepen BC 0.3 mm", "increase diameter 0.5 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.excessive-touch"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show the published change for excessive ARC touch."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.excessive_touch"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "excessive_touch_adjustment"
+      message: "Steepen base curve 0.3 mm."
+      details:
+        changes: ["steepen BC 0.3 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.unstable-over-refraction"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show the published change for unstable over-refraction."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.unstable_over_refraction"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "unstable_over_refraction_adjustment"
+      message: "Flatten base curve 0.3 mm."
+      details:
+        changes: ["flatten BC 0.3 mm"]
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.excessive-rotation"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published sequential changes for excessive ARC rotation."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.excessive_rotation"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "excessive_rotation_adjustments"
+      message: "Steepen base curve 0.3 mm, then increase diameter 0.5 mm, then increase prism to 2.00 D."
+      details:
+        changes:
+          - "steepen BC 0.3 mm"
+          - "increase diameter 0.5 mm"
+          - "increase prism to 2.00 D"
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "arc.troubleshooting.bcva-at-0-30"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show the published thickness change when BCVA is not achieved."
+    source_revision_ids: ["xcel.flexlens-arc.fitting-guide.rev-10-2017"]
+    conditions:
+      - field: "observations.bcva_not_achieved_at_0_30"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "increase_center_thickness_to_0_50"
+      message: "If BCVA is not achieved with 0.30 mm center thickness, go to 0.50 mm."
+      details:
+        center_thickness_mm: "0.50"
+    on_false: null
+    on_unknown: null

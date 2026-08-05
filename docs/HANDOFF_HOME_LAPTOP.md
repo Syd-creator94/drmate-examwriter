@@ -15,20 +15,20 @@ cd drmate-examwriter
 
 После этого проект будет обычным git-репозиторием.
 
-## Вариант 2. Через GitHub/GitLab
+## Вариант 2. Через GitHub
 
-Если хотите синхронизировать работу между компьютерами постоянно, лучше создать пустой приватный репозиторий на GitHub или GitLab и отправить туда текущий проект:
+Для постоянной синхронизации используйте настроенный приватный remote:
 
 ```bash
-git remote add origin <URL_ВАШЕГО_РЕПОЗИТОРИЯ>
-git push -u origin main
+git clone git@github.com:syd-creator94/drmate-examwriter.git
+cd drmate-examwriter
 ```
 
-На домашнем ноутбуке:
+Если нужна незамерженная feature-ветка:
 
 ```bash
-git clone <URL_ВАШЕГО_РЕПОЗИТОРИЯ>
-cd <ПАПКА_ПРОЕКТА>
+git fetch origin
+git switch codex/stabilize-project-foundation
 ```
 
 ## Установка проекта дома
@@ -38,7 +38,7 @@ cd <ПАПКА_ПРОЕКТА>
 ```bash
 python3.12 -m venv .venv
 . .venv/bin/activate
-python -m pip install -e ".[dev]"
+python -m pip install -e ".[dev,reportlab-pdf]" -c requirements-dev.lock
 python -m playwright install chromium
 pytest
 ```
@@ -66,7 +66,16 @@ drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --no-pdf
 
 Это нормально. Дома эти файлы пересоздаются локально.
 
-## Текущие коммиты
+## Проверка текущей версии
 
-- `f9b1d6b Initial ExamWriter medical record pipeline`
-- `254c09f Add prototype technical passport`
+После клонирования проверьте ветку, актуальный коммит и отсутствие локальных
+изменений:
+
+```bash
+git branch --show-current
+git log --oneline -n 10
+git status --short
+```
+
+Список коммитов в документе намеренно не фиксируется: каноническое состояние
+определяется Git-историей и `docs/project/status.md`.

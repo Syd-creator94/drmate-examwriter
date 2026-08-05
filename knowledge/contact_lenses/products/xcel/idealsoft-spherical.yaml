@@ -1,0 +1,19 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.ideal-optics.idealsoft-spherical"
+record_version: 1
+status: "draft"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "IdealSoft"
+model: "Spherical"
+lens_type: "custom_soft_spherical"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+indications: []
+design_facts: []
+parameters: []
+materials: []
+clinical_review_notes:
+  - "The model is listed in the current X-Cel Custom Soft catalog under Ideal Optics."
+  - "No current official parameter guide was verified, so this draft cannot participate in matching."

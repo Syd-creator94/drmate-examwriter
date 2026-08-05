@@ -1,0 +1,285 @@
+schema_version: "1.0.0"
+ruleset_id: "xcel.flexlens.prs.prototype"
+ruleset_version: "0.1.0"
+status: "active"
+product_id: "xcel.flexlens.prs"
+rules:
+  - rule_id: "prs.candidate.published-indication"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "candidate_relevance"
+    authority: "manufacturer"
+    description: "Identify whether the case matches a published PRS indication or an oblate corneal shape."
+    source_revision_ids:
+      - "xcel.flexlens-prs.brochure.fprs-02-19"
+    match_mode: "any"
+    conditions:
+      - field: "clinical_tags"
+        operator: "contains_any"
+        value:
+          - "post_lasik_prk"
+          - "post_rk"
+          - "post_intacs"
+          - "secondary_cornea_ectasia"
+          - "oblate_cornea"
+      - field: "measurements.corneal_shape"
+        operator: "equals"
+        value: "oblate"
+    on_true:
+      status: "supported_candidate"
+      code: "published_indication_match"
+      message: "The case matches a published Flexlens PRS indication."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "no_published_indication_match"
+      message: "No published PRS indication matched. This is not a contraindication and requires clinician review."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_indication_data"
+      message: "Surgery history or corneal-shape information is needed to assess published PRS relevance."
+      details:
+        requested_fields:
+          - "clinical_tags"
+          - "measurements.corneal_shape"
+
+  - rule_id: "prs.parameter.power-range"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "parameter_compatibility"
+    authority: "manufacturer"
+    description: "Check requested lens power against the published PRS range."
+    source_revision_ids:
+      - "xcel.flexlens-prs.brochure.fprs-02-19"
+      - "xcel.flexlens.parameter-guide.rev-04152022"
+    match_mode: "all"
+    conditions:
+      - field: "requested_parameters.power_d"
+        operator: "between_inclusive"
+        value:
+          - "-30.00"
+          - "30.00"
+    on_true:
+      status: "information"
+      code: "power_within_published_range"
+      message: "Requested power is within the published Flexlens PRS range."
+      details:
+        published_range_d:
+          - "-30.00"
+          - "30.00"
+    on_false:
+      status: "outside_published_spec"
+      code: "power_outside_published_range"
+      message: "Requested power is outside the published Flexlens PRS range."
+      details:
+        published_range_d:
+          - "-30.00"
+          - "30.00"
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_requested_power"
+      message: "Requested lens power is not available for parameter-range assessment."
+      details:
+        requested_fields:
+          - "requested_parameters.power_d"
+
+  - rule_id: "prs.initial-trial.average-lens"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Present the manufacturer's average first diagnostic PRS lens."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions: []
+    on_true:
+      status: "information"
+      code: "initial_trial_average_lens"
+      message: "Start the diagnostic evaluation with the average 8.7/15.0 PRS lens, then evaluate settling, fit, and over-refraction."
+      details:
+        base_curve_mm: "8.7"
+        diameter_mm: "15.0"
+    on_false: null
+    on_unknown: null
+  - rule_id: "prs.initial-trial.definitive-74-adjustment"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "initial_trial"
+    authority: "manufacturer"
+    description: "Show the two published fitting adjustments for Definitive 74% material."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "selected_material_id"
+        operator: "equals"
+        value: "xcel.efrofilcon-a-74"
+    on_true:
+      status: "manual_review"
+      code: "definitive_74_adjustment_options"
+      message: "For Definitive 74%, the guide gives two alternative adjustments; the clinician must choose based on the fitting context."
+      details:
+        adjustment_options:
+          - "steepen base curve by 0.3 mm"
+          - "increase diameter by 0.3 mm"
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "prs.fit.limbal-draping"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate published limbal draping criterion."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "observations.limbal_draping_mm"
+        operator: "between_inclusive"
+        value:
+          - "1.0"
+          - "1.5"
+    on_true:
+      status: "information"
+      code: "limbal_draping_within_guide"
+      message: "Limbal draping is within the published PRS fitting criterion."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "limbal_draping_outside_guide"
+      message: "Limbal draping is outside the published PRS fitting criterion."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_limbal_draping"
+      message: "Limbal draping observation is missing."
+      details: {}
+
+  - rule_id: "prs.fit.movement"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate movement in primary position with a normal blink."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "observations.movement_mm"
+        operator: "between_inclusive"
+        value:
+          - "0.25"
+          - "0.50"
+    on_true:
+      status: "information"
+      code: "movement_within_guide"
+      message: "Lens movement is within the published PRS fitting criterion."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "movement_outside_guide"
+      message: "Lens movement is outside the published PRS fitting criterion."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_movement"
+      message: "Lens movement observation is missing."
+      details: {}
+
+  - rule_id: "prs.fit.visual-acuity"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "fit_evaluation"
+    authority: "manufacturer"
+    description: "Evaluate the difference from best corrected visual acuity."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "observations.va_lines_from_best_corrected"
+        operator: "less_than_or_equal"
+        value: "2"
+    on_true:
+      status: "information"
+      code: "visual_acuity_within_guide"
+      message: "Visual acuity is within two lines of best corrected vision."
+      details: {}
+    on_false:
+      status: "manual_review"
+      code: "visual_acuity_outside_guide"
+      message: "Visual acuity is more than two lines from best corrected vision."
+      details: {}
+    on_unknown:
+      status: "insufficient_data"
+      code: "missing_visual_acuity_comparison"
+      message: "Comparison with best corrected visual acuity is missing."
+      details: {}
+
+  - rule_id: "prs.troubleshooting.flat-relationship"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Show published action when edge lift indicates a flat fitting relationship."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "any"
+    conditions:
+      - field: "observations.edge_lift"
+        operator: "equals"
+        value: true
+      - field: "observations.decentration"
+        operator: "equals"
+        value: true
+    on_true:
+      status: "manual_review"
+      code: "flat_relationship_action"
+      message: "Edge lift or decentration indicates a flat relationship; evaluate the next steeper base curve."
+      details: {}
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "prs.troubleshooting.push-up-flat"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Interpret a push-up result consistent with a flat relationship."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "observations.push_up_result"
+        operator: "equals"
+        value: "stays_superior_or_edge_standoff"
+    on_true:
+      status: "manual_review"
+      code: "push_up_flat_relationship"
+      message: "The push-up result is consistent with a flat relationship; evaluate a steeper base curve or larger diameter."
+      details: {}
+    on_false: null
+    on_unknown: null
+
+  - rule_id: "prs.troubleshooting.push-up-steep"
+    rule_version: "1.0.0"
+    status: "active"
+    phase: "troubleshooting"
+    authority: "manufacturer"
+    description: "Interpret resistance to push-up manipulation as a steep relationship."
+    source_revision_ids:
+      - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+    match_mode: "all"
+    conditions:
+      - field: "observations.push_up_result"
+        operator: "equals"
+        value: "resists_manipulation"
+    on_true:
+      status: "manual_review"
+      code: "push_up_steep_relationship"
+      message: "Resistance to manipulation is consistent with a steep relationship; evaluate the next flatter base curve."
+      details: {}
+    on_false: null
+    on_unknown: null

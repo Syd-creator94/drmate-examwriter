@@ -3,9 +3,11 @@ from __future__ import annotations
 import re
 from decimal import Decimal, InvalidOperation, ROUND_HALF_UP
 
-EyeCode = str
+from dr_mate_core.models import Eye
 
-_EYE_MAP = {
+EyeCode = Eye
+
+_EYE_MAP: dict[str, Eye] = {
     "R": "OD",
     "RT": "OD",
     "RIGHT": "OD",
@@ -81,14 +83,14 @@ _DIAGNOSIS_TERMS = {
 }
 
 
-def normalize_eye_code(value: str | None) -> str | None:
+def normalize_eye_code(value: str | None) -> Eye | None:
     if not value:
         return None
     token = re.sub(r"[^A-Za-z]", "", value).upper()
     return _EYE_MAP.get(token)
 
 
-def eye_display_ru(eye: str | None) -> str | None:
+def eye_display_ru(eye: Eye | None) -> str | None:
     return {
         "OD": "правый",
         "OS": "левый",
@@ -173,7 +175,7 @@ def format_keratometry(power: Decimal, axis: int) -> str:
     return f"{power:.2f} @ {format_axis(axis)}"
 
 
-def normalize_dominant_eye(value: str) -> tuple[str | None, str | None]:
+def normalize_dominant_eye(value: str) -> tuple[Eye | None, str | None]:
     match = re.search(r"dominant\s+eye\s*[:\-]?\s*(RT|LT|OD|OS|OU|RIGHT|LEFT)", value, flags=re.I)
     if not match:
         return None, None
@@ -214,13 +216,15 @@ def translate_diagnosis_term(value: str) -> str:
     return _DIAGNOSIS_TERMS.get(normalized, normalized)
 
 
-def group_diagnoses_by_eye(diagnoses: dict[str, list[str]]) -> list[tuple[str, list[str]]]:
+def group_diagnoses_by_eye(
+    diagnoses: dict[Eye, list[str]],
+) -> list[tuple[Eye, list[str]]]:
     od = diagnoses.get("OD")
     os = diagnoses.get("OS")
     other = [(eye, terms) for eye, terms in diagnoses.items() if eye not in {"OD", "OS"}]
     if od and os and od == os:
         return [("OU", od), *other]
-    result: list[tuple[str, list[str]]] = []
+    result: list[tuple[Eye, list[str]]] = []
     if od:
         result.append(("OD", od))
     if os:
@@ -229,7 +233,7 @@ def group_diagnoses_by_eye(diagnoses: dict[str, list[str]]) -> list[tuple[str, l
     return result
 
 
-def diagnosis_display(eye: str, terms: list[str]) -> str:
+def diagnosis_display(eye: Eye, terms: list[str]) -> str:
     return f"{eye}: {', '.join(terms)}"
 
 

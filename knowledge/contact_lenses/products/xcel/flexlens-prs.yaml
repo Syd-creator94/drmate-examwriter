@@ -1,0 +1,274 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.flexlens.prs"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Flexlens"
+model: "PRS"
+lens_type: "custom_soft_reverse_geometry"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens-prs.brochure.fprs-02-19"
+  - "xcel.flexlens-prs.basic-fitting.2014-09-17"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+
+indications:
+  - code: "post_lasik_prk"
+    label: "After LASIK or PRK"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, indication list"
+  - code: "post_rk"
+    label: "After radial keratotomy"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, indication list"
+  - code: "post_intacs"
+    label: "After Intacs"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, indication list"
+  - code: "secondary_cornea_ectasia"
+    label: "Secondary corneal ectasia"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, indication list"
+  - code: "oblate_cornea"
+    label: "Oblate cornea"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, indication list"
+
+design_facts:
+  - fact_id: "reverse_geometry_soft_design"
+    text: "The central optical portion is flatter than the mid-periphery, creating a soft reverse-geometry design."
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, The Design"
+      - source_revision_id: "xcel.web.custom-soft.2026-07-28"
+        locator: "Flexlens PRS, Lens Design"
+  - fact_id: "central_optical_thickness"
+    text: "The optical zone is approximately 0.28 mm thick at -1.00 D to provide stable central optics."
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, The Design"
+  - fact_id: "thin_peripheral_carrier"
+    text: "The peripheral carrier is designed to be as thin as or thinner than a standard soft lens."
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, The Design"
+
+parameters:
+  - parameter: "base_curve_mm"
+    availability:
+      minimum: "6.0"
+      maximum: "11.0"
+      step: "0.1"
+      unit: "mm"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 2, Product Specifications"
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS row"
+  - parameter: "diameter_mm"
+    availability:
+      minimum: "10.0"
+      maximum: "16.0"
+      step: "0.1"
+      unit: "mm"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 2, Product Specifications"
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS row"
+  - parameter: "power_d"
+    availability:
+      minimum: "-30.00"
+      maximum: "30.00"
+      step: "0.25"
+      unit: "D"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 2, Product Specifications"
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS row"
+
+materials:
+  - material_id: "xcel.hefilcon-a-45"
+    display_name: "Hefilcon A 45%"
+    material_family: "hydrogel"
+    water_content_percent: "45"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+  - material_id: "xcel.hioxifilcon-b-49"
+    display_name: "Hioxifilcon B 49%"
+    material_family: "hydrogel"
+    water_content_percent: "49"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+  - material_id: "xcel.methafilcon-a-55"
+    display_name: "Methafilcon A 55%"
+    material_family: "hydrogel"
+    water_content_percent: "55"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+  - material_id: "xcel.acofilcon-a-58"
+    display_name: "Acofilcon A 58%"
+    material_family: "hydrogel"
+    water_content_percent: "58"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+  - material_id: "xcel.hioxifilcon-a-59"
+    display_name: "Hioxifilcon A 59%"
+    material_family: "hydrogel"
+    water_content_percent: "59"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+  - material_id: "xcel.efrofilcon-a-74"
+    display_name: "Efrofilcon A 74%"
+    material_family: "silicone_hydrogel"
+    water_content_percent: "74"
+    trade_name: "Definitive"
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+        locator: "page 1, Design Features and Benefits"
+        note: "Brochure describes availability of 74% silicone hydrogel."
+      - source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022"
+        locator: "page 1, Flexlens PRS materials"
+
+wear_schedule:
+  wear_indication: "daily_wear"
+  replacement_intervals:
+    - "monthly"
+    - "quarterly"
+  evidence:
+    - source_revision_id: "xcel.flexlens-prs.brochure.fprs-02-19"
+      locator: "page 2, Product Specifications"
+
+fitting_guidance:
+  initial_trial:
+    parameters:
+      base_curve_mm: "8.7"
+      diameter_mm: "15.0"
+    rationale: "Use the average diagnostic lens first because central keratometry has limited value for choosing the initial PRS lens."
+    instructions:
+      - "Allow the diagnostic lens to settle for a few minutes before the initial evaluation."
+      - "If there is no obvious edge lift, allow up to an additional 30 minutes of settling."
+      - "If edge lift or decentration indicates a flat relationship, evaluate the next steeper base curve."
+      - "Use the push-up test after confirming good centration."
+    evidence:
+      - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+        locator: "page 1, Basic Fitting Information and Push Up Test"
+
+  reference_tables:
+    - table_id: "post_op_k_to_published_lens_range"
+      measurement: "post_op_k_d"
+      measurement_unit: "D"
+      purpose: "reference_mapping"
+      interpretation: "Reference mapping of post-operative K ranges to published BC/DIA ranges; not an algorithm for selecting the first diagnostic lens."
+      rows:
+        - label: "37.75 D or flatter"
+          measurement_minimum: null
+          measurement_maximum: "37.75"
+          lens_parameters:
+            base_curve_mm: "9.0"
+            diameter_mm: "15.0"
+        - label: "38.00 D to 41.00 D"
+          measurement_minimum: "38.00"
+          measurement_maximum: "41.00"
+          lens_parameters:
+            base_curve_mm: "8.7"
+            diameter_mm: "15.0"
+        - label: "41.25 D or steeper"
+          measurement_minimum: "41.25"
+          measurement_maximum: null
+          lens_parameters:
+            base_curve_mm: "8.4"
+            diameter_mm: "15.0"
+      evidence:
+        - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+          locator: "page 1, Post-Op K's Range table"
+
+    - table_id: "pre_op_k_to_published_lens_range"
+      measurement: "pre_op_k_d"
+      measurement_unit: "D"
+      purpose: "reference_mapping"
+      interpretation: "Reference mapping of pre-operative K ranges to published BC/DIA ranges; not an algorithm for selecting the first diagnostic lens."
+      rows:
+        - label: "41.75 D or flatter"
+          measurement_minimum: null
+          measurement_maximum: "41.75"
+          lens_parameters:
+            base_curve_mm: "9.0"
+            diameter_mm: "15.0"
+        - label: "42.00 D to 45.00 D"
+          measurement_minimum: "42.00"
+          measurement_maximum: "45.00"
+          lens_parameters:
+            base_curve_mm: "8.7"
+            diameter_mm: "15.0"
+        - label: "45.25 D or steeper"
+          measurement_minimum: "45.25"
+          measurement_maximum: null
+          lens_parameters:
+            base_curve_mm: "8.4"
+            diameter_mm: "15.0"
+      evidence:
+        - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+          locator: "page 1, Pre-Op K's Range table"
+
+  fit_criteria:
+    - criterion_id: "limbal_draping"
+      field: "observations.limbal_draping_mm"
+      accepted_range:
+        minimum: "1.0"
+        maximum: "1.5"
+        step: null
+        unit: "mm"
+      accepted_value: null
+      description: "The centered lens should drape 1.0 to 1.5 mm beyond the limbus."
+      evidence:
+        - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+          locator: "page 1, Lens Fitting Evaluation"
+    - criterion_id: "movement_primary_blink"
+      field: "observations.movement_mm"
+      accepted_range:
+        minimum: "0.25"
+        maximum: "0.50"
+        step: null
+        unit: "mm"
+      accepted_value: null
+      description: "Movement in primary position with a normal blink should be 0.25 to 0.50 mm."
+      evidence:
+        - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+          locator: "page 1, Lens Fitting Evaluation"
+    - criterion_id: "visual_acuity_difference"
+      field: "observations.va_lines_from_best_corrected"
+      accepted_range:
+        minimum: "0"
+        maximum: "2"
+        step: "1"
+        unit: "lines"
+      accepted_value: null
+      description: "Visual acuity should remain within two lines of best corrected vision."
+      evidence:
+        - source_revision_id: "xcel.flexlens-prs.basic-fitting.2014-09-17"
+          locator: "page 1, Lens Fitting Evaluation"
+
+clinical_review_notes:
+  - "USER_CONFIRMED 2026-07-28: start with the average 8.7/15.0 diagnostic lens and evaluate fit and refraction."
+  - "USER_CONFIRMED 2026-07-28: the K tables describe range mapping and do not replace the average initial diagnostic lens."
+  - "Contraindications are intentionally deferred until package inserts are reviewed."
+  - "Kazakhstan availability and registration are intentionally outside the current scope."

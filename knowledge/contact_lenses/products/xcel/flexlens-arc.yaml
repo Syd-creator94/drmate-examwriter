@@ -1,0 +1,232 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.flexlens.arc"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Flexlens"
+model: "ARC"
+lens_type: "custom_soft_irregular_cornea_toric_capable"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+  - "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+
+indications:
+  - code: "keratoconus"
+    label: "Keratoconus"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Patient Indications"
+  - code: "pellucid_marginal_degeneration"
+    label: "Pellucid marginal degeneration"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Patient Indications"
+  - code: "corneal_transplant"
+    label: "Corneal transplant"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Patient Indications"
+  - code: "post_refractive_surgery"
+    label: "After refractive surgery"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Patient Indications"
+  - code: "irregular_cornea"
+    label: "Irregular cornea"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Patient Indications"
+
+design_facts:
+  - fact_id: "standard_back_surface_enhanced_center"
+    text: "ARC uses a standard back-surface fitting curve and enhanced center thickness to stabilize correction over an aberrated cornea."
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, design description"
+  - fact_id: "toric_when_residual_astigmatism"
+    text: "A toric design is needed when residual astigmatism is detected through over-refraction."
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, design description"
+
+parameters:
+  - parameter: "base_curve_mm"
+    availability:
+      minimum: "6.0"
+      maximum: "8.7"
+      step: "0.1"
+      unit: "mm"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "diameter_mm"
+    availability:
+      minimum: "13.0"
+      maximum: "16.0"
+      step: "0.5"
+      unit: "mm"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "power_d"
+    availability:
+      minimum: "-20.00"
+      maximum: "20.00"
+      unit: "D"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "cylinder_d"
+    availability:
+      minimum: "-10.00"
+      maximum: "-0.50"
+      step: "0.25"
+      unit: "D"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "axis_deg"
+    availability:
+      minimum: "1"
+      maximum: "180"
+      step: "1"
+      unit: "degree"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "prism_d"
+    allowed_values:
+      values: ["1.50", "2.00"]
+      unit: "D"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - parameter: "center_thickness_mm"
+    allowed_values:
+      values: ["0.30", "0.50"]
+      unit: "mm"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+
+materials:
+  - material_id: "xcel.hioxifilcon-b-49"
+    display_name: "Hioxifilcon B 49%"
+    material_family: "hydrogel"
+    water_content_percent: "49"
+    trade_name: null
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+  - material_id: "xcel.efrofilcon-a-74"
+    display_name: "Efrofilcon A 74%"
+    material_family: "silicone_hydrogel"
+    water_content_percent: "74"
+    trade_name: "Definitive"
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "page 3, Lens Design & Parameters"
+
+fitting_guidance:
+  initial_trial:
+    parameters: {}
+    rationale: "The first diagnostic lens depends on Flat K and requested cylinder; no single universal ARC starting lens is published."
+    instructions:
+      - "Use the diagnostic fitting set."
+      - "For Flat K equal to or flatter than 49.00 D, start with base curve 8.3 mm."
+      - "For Flat K steeper than 49.12 D, start with base curve 7.7 mm."
+      - "For cylinder magnitude up to 2.00 D, start with 0.30 mm center thickness; over 2.00 D, start with 0.50 mm."
+      - "Evaluate as a normal soft lens and allow 10 minutes of settling before rotation, edge, and acuity evaluation."
+    evidence:
+      - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+        locator: "pages 4-5, Fitting the Flexlens ARC"
+  reference_tables:
+    - table_id: "flat_k_to_initial_base_curve"
+      measurement: "flat_k_d"
+      measurement_unit: "D"
+      purpose: "reference_mapping"
+      interpretation: "Manufacturer starting-base-curve mapping; the interval between 49.00 D and 49.12 D is not filled by inference."
+      rows:
+        - label: "49.00 D or flatter"
+          measurement_minimum: null
+          measurement_maximum: "49.00"
+          lens_parameters:
+            base_curve_mm: "8.3"
+        - label: "49.12 D or steeper"
+          measurement_minimum: "49.12"
+          measurement_maximum: null
+          lens_parameters:
+            base_curve_mm: "7.7"
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 5, Base Curve Selection"
+  fit_criteria:
+    - criterion_id: "centered"
+      field: "observations.centered"
+      accepted_range: null
+      accepted_value: true
+      description: "The diagnostic lens should be well centered."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 1"
+    - criterion_id: "movement"
+      field: "observations.movement_mm"
+      accepted_range:
+        minimum: "0"
+        maximum: "2.0"
+        unit: "mm"
+      accepted_value: null
+      description: "The centered lens should show no more than 2 mm movement."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 1"
+    - criterion_id: "no_central_air_bubble"
+      field: "observations.central_air_bubble"
+      accepted_range: null
+      accepted_value: false
+      description: "The lens should show slight central touch without an air bubble."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 2"
+    - criterion_id: "no_lens_fold"
+      field: "observations.lens_fold"
+      accepted_range: null
+      accepted_value: false
+      description: "The lens should show slight central touch without a fold."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 2"
+    - criterion_id: "slight_central_touch"
+      field: "observations.central_touch"
+      accepted_range: null
+      accepted_value: "slight"
+      description: "The lens should display slight central touch."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 2"
+    - criterion_id: "rotation"
+      field: "observations.rotation_deg"
+      accepted_range:
+        minimum: "0"
+        maximum: "10"
+        unit: "degree"
+      accepted_value: null
+      description: "Rotation over 10 degrees requires the next steeper base curve."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 4"
+    - criterion_id: "over_refraction_va"
+      field: "observations.over_refraction_va_at_least_best_achievable"
+      accepted_range: null
+      accepted_value: true
+      description: "Sphere-cylinder over-refraction acuity should be at least equal to best achievable acuity."
+      evidence:
+        - source_revision_id: "xcel.flexlens-arc.fitting-guide.rev-10-2017"
+          locator: "page 6, fitting evaluation step 6"
+
+clinical_review_notes:
+  - "The manufacturer requests that all fitting evaluation information be provided to an X-Cel consultant for the final lens order."
+  - "Extended parameter ranges require X-Cel consultation and are not represented as routinely available."

@@ -1,0 +1,63 @@
+from dr_mate_contact_lenses.catalog import (
+    CATALOG_DISCLAIMER,
+    CatalogComparison,
+    CatalogProductView,
+    CatalogQuery,
+    CatalogSearchResult,
+    ContactLensCatalog,
+    ParameterComparisonRow,
+)
+from dr_mate_contact_lenses.loader import (
+    load_product_record,
+    load_ruleset,
+    load_source_manifest,
+    validate_catalog_links,
+)
+from dr_mate_contact_lenses.matcher import (
+    DEFAULT_PREFIT_PHASES,
+    TruthValue,
+    evaluate_condition,
+    evaluate_rule,
+    match_product,
+)
+from dr_mate_contact_lenses.models import (
+    DiscreteValueSet,
+    MatchContext,
+    MatchResult,
+    MatchStatus,
+    ParameterConflict,
+    ParameterConstraint,
+    ProductRecord,
+    RulePhase,
+    RuleSet,
+    SourceManifest,
+)
+
+__all__ = [
+    "CATALOG_DISCLAIMER",
+    "CatalogComparison",
+    "CatalogProductView",
+    "CatalogQuery",
+    "CatalogSearchResult",
+    "ContactLensCatalog",
+    "DEFAULT_PREFIT_PHASES",
+    "DiscreteValueSet",
+    "MatchContext",
+    "MatchResult",
+    "MatchStatus",
+    "ParameterConflict",
+    "ParameterComparisonRow",
+    "ParameterConstraint",
+    "ProductRecord",
+    "RulePhase",
+    "RuleSet",
+    "SourceManifest",
+    "TruthValue",
+    "evaluate_condition",
+    "evaluate_rule",
+    "load_product_record",
+    "load_ruleset",
+    "load_source_manifest",
+    "match_product",
+    "validate_catalog_links",
+]

@@ -1,0 +1,19 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.westcon.horizon-toric"
+record_version: 1
+status: "draft"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Horizon"
+model: "Toric"
+lens_type: "custom_soft_toric"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+indications: []
+design_facts: []
+parameters: []
+materials: []
+clinical_review_notes:
+  - "The model is listed in the current X-Cel Custom Soft catalog."
+  - "No current official parameter row was verified, so this draft cannot participate in matching."

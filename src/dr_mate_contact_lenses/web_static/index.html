@@ -1,0 +1,200 @@
+<!doctype html>
+<html lang="ru">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="color-scheme" content="light">
+    <title>Dr. Mate — справочник контактных линз</title>
+    <meta
+      name="description"
+      content="Локальный справочник X-Cel Custom Soft: поиск, параметры, источники и сравнение моделей."
+    >
+    <link rel="stylesheet" href="/styles.css">
+    <script src="/app.js" defer></script>
+  </head>
+  <body>
+    <a class="skip-link" href="#catalog-results">Перейти к моделям</a>
+
+    <header class="app-header">
+      <div class="brand-block" aria-label="Dr. Mate">
+        <span class="brand-mark">DM</span>
+        <span>
+          <strong>Dr. Mate</strong>
+          <small>Clinical workspace</small>
+        </span>
+      </div>
+
+      <div class="header-title">
+        <p class="eyebrow">Контактные линзы · X-Cel</p>
+        <h1>Справочник возможностей</h1>
+      </div>
+
+      <div class="catalog-pulse" aria-live="polite">
+        <span class="pulse-dot" aria-hidden="true"></span>
+        <span id="catalog-summary">Загрузка каталога…</span>
+      </div>
+    </header>
+
+    <div class="safety-banner" role="note">
+      <strong>Справочный режим.</strong>
+      Найденная модель не является назначением и требует решения врача.
+      Пациентские данные не принимаются и не сохраняются.
+    </div>
+
+    <div class="workspace">
+      <aside class="filters-panel" aria-label="Фильтры каталога">
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">Навигация</p>
+            <h2>Фильтры</h2>
+          </div>
+          <button class="text-button" id="reset-filters" type="button">
+            Сбросить
+          </button>
+        </div>
+
+        <label class="search-field" for="search-input">
+          <span>Поиск по каталогу</span>
+          <input
+            id="search-input"
+            type="search"
+            placeholder="Например: keratoconus, toric…"
+            autocomplete="off"
+          >
+          <small>Модель, показание, материал, конструкция или источник</small>
+        </label>
+
+        <fieldset class="filter-group">
+          <legend>Статус данных</legend>
+          <div id="status-filters" class="check-list"></div>
+        </fieldset>
+
+        <fieldset class="filter-group">
+          <legend>Линейка</legend>
+          <div id="brand-filters" class="check-list"></div>
+        </fieldset>
+
+        <label class="select-field" for="indication-filter">
+          <span>Показание</span>
+          <select id="indication-filter">
+            <option value="">Все показания</option>
+          </select>
+        </label>
+
+        <label class="select-field" for="lens-type-filter">
+          <span>Тип конструкции</span>
+          <select id="lens-type-filter">
+            <option value="">Все типы</option>
+          </select>
+        </label>
+
+        <label class="select-field" for="material-filter">
+          <span>Материал</span>
+          <select id="material-filter">
+            <option value="">Все материалы</option>
+          </select>
+        </label>
+
+        <label class="select-field" for="parameter-filter">
+          <span>Обязательный параметр</span>
+          <select id="parameter-filter">
+            <option value="">Любой набор параметров</option>
+          </select>
+        </label>
+
+        <div class="integration-note">
+          <span class="integration-kicker">Готово к встраиванию</span>
+          <p>
+            Экран использует отдельный API. Позже его сможет вызывать форма
+            медкарты без копирования продуктовых данных.
+          </p>
+        </div>
+      </aside>
+
+      <main class="catalog-main" id="catalog-results" tabindex="-1">
+        <div class="results-toolbar">
+          <div>
+            <p class="eyebrow">Результат</p>
+            <h2><span id="result-count">0</span> моделей</h2>
+          </div>
+          <p id="active-filter-summary" class="filter-summary">
+            Показан весь каталог
+          </p>
+        </div>
+
+        <div id="loading-state" class="loading-grid" aria-label="Загрузка">
+          <div class="loading-card"></div>
+          <div class="loading-card"></div>
+          <div class="loading-card"></div>
+        </div>
+
+        <div id="empty-state" class="empty-state" hidden>
+          <span class="empty-symbol" aria-hidden="true">∅</span>
+          <h3>Ничего не найдено</h3>
+          <p>Измените запрос или сбросьте часть фильтров.</p>
+          <button class="secondary-button" id="empty-reset" type="button">
+            Показать весь каталог
+          </button>
+        </div>
+
+        <div id="product-grid" class="product-grid" aria-live="polite"></div>
+      </main>
+
+      <aside
+        class="detail-panel"
+        id="detail-panel"
+        aria-label="Карточка модели"
+        aria-live="polite"
+      >
+        <div class="detail-placeholder" id="detail-placeholder">
+          <span class="detail-index">01</span>
+          <p class="eyebrow">Карточка модели</p>
+          <h2>Выберите линзу</h2>
+          <p>
+            Здесь появятся параметры, материалы, показания, источники и
+            предупреждения.
+          </p>
+        </div>
+        <div id="detail-content" hidden></div>
+      </aside>
+    </div>
+
+    <section class="compare-tray" id="compare-tray" aria-live="polite">
+      <div>
+        <span class="compare-count" id="compare-count">0</span>
+        <span>
+          <strong>Выбрано для сравнения</strong>
+          <small id="compare-names">Можно выбрать до четырёх моделей</small>
+        </span>
+      </div>
+      <div class="compare-actions">
+        <button class="text-button light" id="clear-comparison" type="button">
+          Очистить
+        </button>
+        <button class="primary-button" id="open-comparison" type="button" disabled>
+          Сравнить
+        </button>
+      </div>
+    </section>
+
+    <dialog class="comparison-dialog" id="comparison-dialog">
+      <div class="dialog-header">
+        <div>
+          <p class="eyebrow">Сопоставление параметров</p>
+          <h2>Сравнение моделей</h2>
+        </div>
+        <button
+          class="icon-button"
+          id="close-comparison"
+          type="button"
+          aria-label="Закрыть сравнение"
+        >
+          ×
+        </button>
+      </div>
+      <div id="comparison-content" class="comparison-content"></div>
+    </dialog>
+
+    <div id="toast" class="toast" role="status" hidden></div>
+  </body>
+</html>

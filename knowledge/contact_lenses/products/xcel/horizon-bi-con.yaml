@@ -1,0 +1,40 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.westcon.horizon-bi-con"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Horizon"
+model: "Bi-Con Bifocal"
+lens_type: "custom_soft_bifocal"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+indications:
+  - code: "presbyopia"
+    label: "Presbyopia"
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con row"}]
+parameters:
+  - parameter: "base_curve_mm"
+    availability: {minimum: "8.0", maximum: "9.2", unit: "mm"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con group"}]
+  - parameter: "diameter_mm"
+    availability: {minimum: "14.0", maximum: "15.0", unit: "mm"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con group"}]
+  - parameter: "power_d"
+    availability: {minimum: "-20.00", maximum: "20.00", unit: "D"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con group"}]
+  - parameter: "add_power_d"
+    availability: {maximum: "4.00", step: "0.25", unit: "D"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con add"}]
+  - parameter: "add_zone_mm"
+    allowed_values: {values: ["1.8", "2.0", "2.5", "3.0", "3.5", "4.0"], unit: "mm"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con add zones"}]
+materials:
+  - {material_id: "xcel.hioxifilcon-b-49", display_name: "Hioxifilcon B 49%", material_family: "hydrogel", water_content_percent: "49", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con materials"}]}
+  - {material_id: "xcel.methafilcon-a-55", display_name: "Methafilcon A 55%", material_family: "hydrogel", water_content_percent: "55", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con materials"}]}
+  - {material_id: "xcel.hioxifilcon-a-59", display_name: "Hioxifilcon A 59%", material_family: "hydrogel", water_content_percent: "59", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con materials"}]}
+  - {material_id: "xcel.efrofilcon-a-74", display_name: "Efrofilcon A 74%", material_family: "silicone_hydrogel", water_content_percent: "74", trade_name: "Definitive", evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Horizon Bi-con materials"}]}
+clinical_review_notes:
+  - "The separate Westcon parameter PDF was unavailable; no fitting rules were inferred."

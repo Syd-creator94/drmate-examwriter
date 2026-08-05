@@ -1,0 +1,41 @@
+schema_version: "1.0.0"
+catalog_version: "0.2.0"
+product_id: "xcel.westcon.westhin-toric"
+record_version: 1
+status: "source_verified"
+usage_scope: "research_prototype"
+manufacturer_id: "xcel-specialty-contacts"
+brand: "Westcon"
+model: "Westhin Toric"
+lens_type: "custom_soft_toric"
+source_revision_ids:
+  - "xcel.web.custom-soft.2026-07-28"
+  - "xcel.flexlens.parameter-guide.rev-04152022"
+indications:
+  - code: "astigmatism"
+    label: "Astigmatism"
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+parameters:
+  - parameter: "base_curve_mm"
+    availability: {minimum: "8.0", maximum: "9.5", unit: "mm"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+  - parameter: "diameter_mm"
+    availability: {minimum: "13.5", maximum: "15.5", unit: "mm"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+  - parameter: "power_d"
+    availability: {minimum: "-20.00", maximum: "20.00", unit: "D"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+  - parameter: "cylinder_d"
+    availability: {minimum: "-10.00", maximum: "-0.50", unit: "D"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+  - parameter: "axis_deg"
+    availability: {minimum: "1", maximum: "180", unit: "degree"}
+    evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric row"}]
+materials:
+  - {material_id: "xcel.polymacon-38", display_name: "Polymacon 38%", material_family: "hydrogel", water_content_percent: "38", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric materials"}]}
+  - {material_id: "xcel.hioxifilcon-b-49", display_name: "Hioxifilcon B 49%", material_family: "hydrogel", water_content_percent: "49", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric materials"}]}
+  - {material_id: "xcel.methafilcon-a-55", display_name: "Methafilcon A 55%", material_family: "hydrogel", water_content_percent: "55", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric materials"}]}
+  - {material_id: "xcel.hioxifilcon-a-59", display_name: "Hioxifilcon A 59%", material_family: "hydrogel", water_content_percent: "59", trade_name: null, evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric materials"}]}
+  - {material_id: "xcel.efrofilcon-a-74", display_name: "Efrofilcon A 74%", material_family: "silicone_hydrogel", water_content_percent: "74", trade_name: "Definitive", evidence: [{source_revision_id: "xcel.flexlens.parameter-guide.rev-04152022", locator: "page 1, Westhin Toric materials"}]}
+clinical_review_notes:
+  - "The separate Westcon parameter PDF was unavailable during import; values are sourced only from the verified 2022 cross-product guide."
