@@ -85,9 +85,10 @@
 ## Контроль версий
 
 - `CODE_VERIFIED`: стабилизация выполняется в ветке `codex/stabilize-project-foundation`, отдельно от `main`.
-- `UNKNOWN`: GitHub CLI требует повторной авторизации; возможность push через настроенный SSH remote проверяется при публикации ветки.
+- `CODE_VERIFIED`: commit `dd18596` опубликован через SSH в `origin/codex/stabilize-project-foundation`.
+- `UNKNOWN`: результат удалённого GitHub Actions workflow не проверен, потому что GitHub CLI требует повторной авторизации.
 - Переименование GitHub-репозитория и merge в `main` в текущую границу изменений не входят.
 
 ## Следующее точное действие
 
-Опубликовать и проверить feature-ветку, затем собрать 5–10 обезличенных реальных ExamWriter RTF и для каждого зафиксировать ожидаемый JSON fixture. Контракт встраивания `MatchContext` по-прежнему требует отдельного change preview и ADR.
+Проверить GitHub Actions и выполнить review/merge feature-ветки, затем собрать 5–10 обезличенных реальных ExamWriter RTF и для каждого зафиксировать ожидаемый JSON fixture. Контракт встраивания `MatchContext` по-прежнему требует отдельного change preview и ADR.
