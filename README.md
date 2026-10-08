@@ -78,3 +78,8 @@ drmate-examwriter examples/examwriter_sample.rtf --outdir outputs --pdf-engine r
 - [Технический паспорт прототипа](docs/TECH_PASSPORT.md)
 - [Как продолжить работу дома на ноутбуке](docs/HANDOFF_HOME_LAPTOP.md)
 # main
+
+
+## Clinic и CRM · новая визуальная концепция
+
+Интерактивное представление Clinic и CRM на основе актуального Flux, включая дневное и недельное расписание: [исходники и запуск](tools/clinic-stage/README.md). Это самостоятельный фронтенд с вымышленными данными и локальным сохранением. Откройте `tools/clinic-stage/dist/clinic-stage.html` в браузере для просмотра без установки и сети.

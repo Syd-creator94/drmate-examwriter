@@ -1,0 +1,15 @@
+{
+  "name": "dr-mate-clinic-stage",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "python3 tools/serve.py",
+    "test": "node --test tests/*.test.mjs",
+    "check": "node --check app/app.mjs && node --check app/model.mjs && node --check app/data.mjs && node --check app/ui.mjs && node --check app/calendar.mjs",
+    "build": "python3 tools/build.py"
+  },
+  "devDependencies": {
+    "jsdom": "26.1.0"
+  }
+}
