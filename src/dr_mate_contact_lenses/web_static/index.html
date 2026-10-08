@@ -1,9 +1,10 @@
 <!doctype html>
-<html lang="ru">
+<html lang="ru" data-theme="dark">
   <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1">
-    <meta name="color-scheme" content="light">
+    <meta name="color-scheme" content="dark light">
+    <meta name="theme-color" content="#101112">
     <title>Dr. Mate — справочник контактных линз</title>
     <meta
       name="description"
@@ -15,37 +16,38 @@
   <body>
     <a class="skip-link" href="#catalog-results">Перейти к моделям</a>
 
-    <header class="app-header">
-      <div class="brand-block" aria-label="Dr. Mate">
-        <span class="brand-mark">DM</span>
-        <span>
-          <strong>Dr. Mate</strong>
-          <small>Clinical workspace</small>
-        </span>
-      </div>
-
-      <div class="header-title">
-        <p class="eyebrow">Контактные линзы · X-Cel</p>
-        <h1>Справочник возможностей</h1>
-      </div>
-
-      <div class="catalog-pulse" aria-live="polite">
-        <span class="pulse-dot" aria-hidden="true"></span>
-        <span id="catalog-summary">Загрузка каталога…</span>
-      </div>
-    </header>
-
-    <div class="safety-banner" role="note">
-      <strong>Справочный режим.</strong>
-      Найденная модель не является назначением и требует решения врача.
-      Пациентские данные не принимаются и не сохраняются.
-    </div>
-
-    <div class="workspace">
+    <div class="app-shell">
       <aside class="filters-panel" aria-label="Фильтры каталога">
-        <div class="panel-heading">
+        <div class="sidebar-rail" aria-hidden="true">
+          <span>DM // CL-02</span><i></i><span>REFERENCE</span>
+        </div>
+
+        <div class="brand-block">
+          <img
+            class="brand-mark"
+            src="/mechanicus-cog-emblem.png"
+            alt=""
+            width="58"
+            height="58"
+          >
+          <span>
+            <strong>Dr. Mate</strong>
+            <small>Lens archive // 02</small>
+          </span>
+        </div>
+
+        <div class="system-plaque">
+          <span class="status-lamp" aria-hidden="true"></span>
+          <span>
+            <small>Состояние контура</small>
+            <strong>Cogitator online</strong>
+          </span>
+          <code>Θ-02</code>
+        </div>
+
+        <div class="panel-heading filter-heading">
           <div>
-            <p class="eyebrow">Навигация</p>
+            <p class="eyebrow">Archive controls</p>
             <h2>Фильтры</h2>
           </div>
           <button class="text-button" id="reset-filters" type="button">
@@ -58,105 +60,160 @@
           <input
             id="search-input"
             type="search"
-            placeholder="Например: keratoconus, toric…"
+            placeholder="Модель, материал, keratoconus…"
             autocomplete="off"
           >
           <small>Модель, показание, материал, конструкция или источник</small>
         </label>
 
         <fieldset class="filter-group">
-          <legend>Статус данных</legend>
+          <legend><span>01</span> Статус данных</legend>
           <div id="status-filters" class="check-list"></div>
         </fieldset>
 
         <fieldset class="filter-group">
-          <legend>Линейка</legend>
+          <legend><span>02</span> Линейка</legend>
           <div id="brand-filters" class="check-list"></div>
         </fieldset>
 
         <label class="select-field" for="indication-filter">
-          <span>Показание</span>
+          <span><b>03</b> Показание</span>
           <select id="indication-filter">
             <option value="">Все показания</option>
           </select>
         </label>
 
         <label class="select-field" for="lens-type-filter">
-          <span>Тип конструкции</span>
+          <span><b>04</b> Тип конструкции</span>
           <select id="lens-type-filter">
             <option value="">Все типы</option>
           </select>
         </label>
 
         <label class="select-field" for="material-filter">
-          <span>Материал</span>
+          <span><b>05</b> Материал</span>
           <select id="material-filter">
             <option value="">Все материалы</option>
           </select>
         </label>
 
         <label class="select-field" for="parameter-filter">
-          <span>Обязательный параметр</span>
+          <span><b>06</b> Обязательный параметр</span>
           <select id="parameter-filter">
             <option value="">Любой набор параметров</option>
           </select>
         </label>
 
         <div class="integration-note">
-          <span class="integration-kicker">Готово к встраиванию</span>
+          <span class="integration-kicker">Archive node // read only</span>
           <p>
-            Экран использует отдельный API. Позже его сможет вызывать форма
-            медкарты без копирования продуктовых данных.
+            Экран использует отдельный API. Форма медкарты сможет обращаться
+            к нему без копирования продуктовых данных.
           </p>
         </div>
       </aside>
 
-      <main class="catalog-main" id="catalog-results" tabindex="-1">
-        <div class="results-toolbar">
-          <div>
-            <p class="eyebrow">Результат</p>
-            <h2><span id="result-count">0</span> моделей</h2>
+      <main class="main-area">
+        <header class="app-header">
+          <div class="title-cluster">
+            <div class="system-line">
+              <span class="status-lamp" aria-hidden="true"></span>
+              <span>Secure link</span><i></i>
+              <code>OCULUS-CATALOG // ACTIVE</code>
+            </div>
+            <p class="eyebrow">Контактные линзы · X-Cel</p>
+            <div class="title-row">
+              <span class="title-index" aria-hidden="true">II</span>
+              <div>
+                <h1>Справочник возможностей</h1>
+                <p>Параметры, источники и сопоставление моделей</p>
+              </div>
+            </div>
+            <div class="title-ruler" aria-hidden="true">
+              <span></span><i></i><i></i><i></i><b></b>
+            </div>
           </div>
-          <p id="active-filter-summary" class="filter-summary">
-            Показан весь каталог
-          </p>
-        </div>
 
-        <div id="loading-state" class="loading-grid" aria-label="Загрузка">
-          <div class="loading-card"></div>
-          <div class="loading-card"></div>
-          <div class="loading-card"></div>
-        </div>
+          <div class="header-actions">
+            <div class="catalog-pulse" aria-live="polite">
+              <span class="pulse-dot" aria-hidden="true"></span>
+              <span id="catalog-summary">Загрузка каталога…</span>
+            </div>
+            <button
+              class="theme-toggle"
+              id="theme-toggle"
+              type="button"
+              aria-label="Переключить светлую и тёмную тему"
+              title="Переключить цветовую тему"
+            >
+              <span class="theme-icon" id="theme-icon" aria-hidden="true">☀</span>
+              <span id="theme-label">Светлая</span>
+            </button>
+          </div>
+        </header>
 
-        <div id="empty-state" class="empty-state" hidden>
-          <span class="empty-symbol" aria-hidden="true">∅</span>
-          <h3>Ничего не найдено</h3>
-          <p>Измените запрос или сбросьте часть фильтров.</p>
-          <button class="secondary-button" id="empty-reset" type="button">
-            Показать весь каталог
-          </button>
-        </div>
-
-        <div id="product-grid" class="product-grid" aria-live="polite"></div>
-      </main>
-
-      <aside
-        class="detail-panel"
-        id="detail-panel"
-        aria-label="Карточка модели"
-        aria-live="polite"
-      >
-        <div class="detail-placeholder" id="detail-placeholder">
-          <span class="detail-index">01</span>
-          <p class="eyebrow">Карточка модели</p>
-          <h2>Выберите линзу</h2>
+        <div class="safety-banner" role="note">
+          <span class="safety-code">CLINICAL BOUNDARY // 01</span>
           <p>
-            Здесь появятся параметры, материалы, показания, источники и
-            предупреждения.
+            <strong>Справочный режим.</strong>
+            Найденная модель не является назначением и требует решения врача.
+            Пациентские данные не принимаются и не сохраняются.
           </p>
         </div>
-        <div id="detail-content" hidden></div>
-      </aside>
+
+        <div class="workspace">
+          <section class="catalog-main" id="catalog-results" tabindex="-1">
+            <div class="results-toolbar">
+              <div class="results-title">
+                <span class="panel-index" aria-hidden="true">I</span>
+                <div>
+                  <p class="eyebrow">Catalog manifold</p>
+                  <h2><span id="result-count">0</span> моделей</h2>
+                </div>
+              </div>
+              <p id="active-filter-summary" class="filter-summary">
+                Показан весь каталог
+              </p>
+            </div>
+
+            <div id="loading-state" class="loading-grid" aria-label="Загрузка">
+              <div class="loading-card"></div>
+              <div class="loading-card"></div>
+              <div class="loading-card"></div>
+            </div>
+
+            <div id="empty-state" class="empty-state" hidden>
+              <span class="empty-symbol" aria-hidden="true">∅</span>
+              <h3>Ничего не найдено</h3>
+              <p>Измените запрос или сбросьте часть фильтров.</p>
+              <button class="secondary-button" id="empty-reset" type="button">
+                Показать весь каталог
+              </button>
+            </div>
+
+            <div id="product-grid" class="product-grid" aria-live="polite"></div>
+          </section>
+
+          <aside
+            class="detail-panel"
+            id="detail-panel"
+            aria-label="Карточка модели"
+            aria-live="polite"
+          >
+            <div class="detail-placeholder" id="detail-placeholder">
+              <span class="detail-index">02</span>
+              <p class="eyebrow">Data reliquary</p>
+              <h2>Выберите линзу</h2>
+              <p>
+                Здесь появятся параметры, материалы, показания, источники и
+                предупреждения.
+              </p>
+              <div class="placeholder-rings" aria-hidden="true"><i></i><b></b></div>
+            </div>
+            <div id="detail-content" hidden></div>
+          </aside>
+        </div>
+      </main>
     </div>
 
     <section class="compare-tray" id="compare-tray" aria-live="polite">
@@ -180,7 +237,7 @@
     <dialog class="comparison-dialog" id="comparison-dialog">
       <div class="dialog-header">
         <div>
-          <p class="eyebrow">Сопоставление параметров</p>
+          <p class="eyebrow">Comparative litany // 04</p>
           <h2>Сравнение моделей</h2>
         </div>
         <button

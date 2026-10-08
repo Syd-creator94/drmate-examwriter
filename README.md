@@ -14,6 +14,11 @@
 
 ## Архитектура
 
+Локальный [UX-прототип Clinic](tools/clinic-prototype/README.md) запускается
+командой `PYTHONPATH=src .venv/bin/python -m dr_mate_clinic_prototype` и доступен
+на `http://127.0.0.1:8766/`. Он демонстрирует фокус, сравнение осмотров, историю
+коррекции и поиск на синтетических данных; clinical runtime ещё не подключён.
+
 ```text
 ExamWriter RTF/TXT
   -> dr_mate_adapters.examwriter
@@ -77,6 +82,19 @@ drmate-lenses
 
 По умолчанию открывается локальный read-only интерфейс на
 `http://127.0.0.1:8765/`. Он не принимает и не сохраняет пациентские данные.
+
+### Единая кнопка macOS
+
+Исходники персонального launcher находятся в `tools/macos-launcher`. Собранное
+приложение `Dr. Mate.app`:
+
+1. проверяет, запущен ли локальный Knowledge;
+2. при необходимости запускает `drmate-lenses` из `.venv`;
+3. открывает Orders, Knowledge и живую проектную доску в браузере.
+
+По умолчанию launcher ожидает репозиторий в
+`$HOME/Documents/Codex/projects/dr-mate`. Для другого расположения можно задать
+`DRMATE_HOME` перед сборкой или изменить локальную конфигурацию launcher.
 
 ## Проверки
 

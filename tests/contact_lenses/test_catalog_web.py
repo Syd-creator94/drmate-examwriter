@@ -37,6 +37,8 @@ def test_static_screen_exposes_reference_and_safety_boundaries(application):
     assert "Dr. Mate" in html
     assert "Справочник возможностей" in html
     assert "Пациентские данные не принимаются и не сохраняются" in html
+    assert 'src="/mechanicus-cog-emblem.png"' in html
+    assert 'id="theme-toggle"' in html
     assert '<script src="/app.js" defer></script>' in html
 
     script = application.dispatch("GET", "/app.js")
@@ -44,6 +46,9 @@ def test_static_screen_exposes_reference_and_safety_boundaries(application):
     assert INTEGRATION_EVENT not in script.body.decode("utf-8")
     assert "future_embedding.selection_event" in script.body.decode("utf-8")
     assert 'intent: "reference_comparison"' in script.body.decode("utf-8")
+    assert 'THEME_STORAGE_KEY = "drmate-lenses-theme"' in script.body.decode(
+        "utf-8"
+    )
 
     stylesheet = application.dispatch("GET", "/styles.css")
     assert stylesheet.status == HTTPStatus.OK
@@ -52,6 +57,12 @@ def test_static_screen_exposes_reference_and_safety_boundaries(application):
     assert ".product-grid" in css
     assert "[hidden]" in css
     assert "display: none !important" in css
+    assert 'html[data-theme="light"]' in css
+
+    emblem = application.dispatch("GET", "/mechanicus-cog-emblem.png")
+    assert emblem.status == HTTPStatus.OK
+    assert emblem.content_type == "image/png"
+    assert emblem.body.startswith(b"\x89PNG\r\n\x1a\n")
 
 
 def test_metadata_describes_catalog_and_future_embedding_contract(application):

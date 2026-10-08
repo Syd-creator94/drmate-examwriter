@@ -35,8 +35,13 @@ const elements = {
   comparisonDialog: document.querySelector("#comparison-dialog"),
   closeComparison: document.querySelector("#close-comparison"),
   comparisonContent: document.querySelector("#comparison-content"),
+  themeToggle: document.querySelector("#theme-toggle"),
+  themeIcon: document.querySelector("#theme-icon"),
+  themeLabel: document.querySelector("#theme-label"),
   toast: document.querySelector("#toast"),
 };
+
+const THEME_STORAGE_KEY = "drmate-lenses-theme";
 
 const STATUS_LABELS = {
   source_verified: "Проверено по источнику",
@@ -75,6 +80,50 @@ const LENS_TYPE_LABELS = {
   custom_soft_toric: "Торическая мягкая",
   soft_toric_extended_range: "Торическая расширенного диапазона",
 };
+
+function applyTheme(theme, persist = false) {
+  const activeTheme = theme === "light" ? "light" : "dark";
+  const nextTheme = activeTheme === "light" ? "dark" : "light";
+  document.documentElement.dataset.theme = activeTheme;
+  document.documentElement.style.colorScheme = activeTheme;
+  elements.themeIcon.textContent = activeTheme === "light" ? "☾" : "☀";
+  elements.themeLabel.textContent =
+    activeTheme === "light" ? "Тёмная" : "Светлая";
+  elements.themeToggle.dataset.nextTheme = nextTheme;
+  elements.themeToggle.setAttribute(
+    "aria-pressed",
+    String(activeTheme === "light"),
+  );
+  document
+    .querySelector('meta[name="theme-color"]')
+    ?.setAttribute("content", activeTheme === "light" ? "#e7e0d4" : "#101112");
+
+  if (persist) {
+    try {
+      window.localStorage.setItem(THEME_STORAGE_KEY, activeTheme);
+    } catch {
+      // The theme still applies for this session when storage is unavailable.
+    }
+  }
+}
+
+function initializeTheme() {
+  let storedTheme = null;
+  try {
+    storedTheme = window.localStorage.getItem(THEME_STORAGE_KEY);
+  } catch {
+    storedTheme = null;
+  }
+  const preferredTheme = window.matchMedia("(prefers-color-scheme: light)")
+    .matches
+    ? "light"
+    : "dark";
+  applyTheme(storedTheme || preferredTheme);
+}
+
+function toggleTheme() {
+  applyTheme(elements.themeToggle.dataset.nextTheme, true);
+}
 
 async function api(path) {
   const response = await fetch(path, {
@@ -512,10 +561,10 @@ async function openDetail(productId) {
 
 function closeDetail() {
   elements.detailPanel.classList.remove("is-open");
-  if (window.innerWidth <= 1280) {
-    state.activeProductId = null;
-    renderResults(state.items);
-  }
+  elements.detailContent.hidden = true;
+  elements.detailPlaceholder.hidden = false;
+  state.activeProductId = null;
+  renderResults(state.items);
 }
 
 function updateComparisonSelection(productId, checked) {
@@ -714,6 +763,7 @@ function scheduleSearch() {
 }
 
 function bindEvents() {
+  elements.themeToggle.addEventListener("click", toggleTheme);
   elements.search.addEventListener("input", scheduleSearch);
   elements.statuses.addEventListener("change", searchCatalog);
   elements.brands.addEventListener("change", searchCatalog);
@@ -763,6 +813,7 @@ function bindEvents() {
 }
 
 async function init() {
+  initializeTheme();
   bindEvents();
   try {
     const payload = await api("/api/v1/meta");

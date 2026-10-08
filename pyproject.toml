@@ -33,6 +33,7 @@ reportlab-pdf = [
 [project.scripts]
 drmate-examwriter = "dr_mate_cli:main"
 drmate-lenses = "dr_mate_contact_lenses.web:main"
+drmate-clinic-demo = "dr_mate_clinic_prototype.__main__:main"
 
 [tool.setuptools]
 package-dir = {"" = "src"}
@@ -42,11 +43,13 @@ py-modules = ["dr_mate_cli"]
 where = ["src"]
 
 [tool.setuptools.package-data]
+dr_mate_clinic_prototype = ["static/*.html", "static/*.css", "static/*.mjs", "static/*.svg"]
 dr_mate_rendering = ["py.typed"]
 dr_mate_contact_lenses = [
     "web_static/*.css",
     "web_static/*.html",
     "web_static/*.js",
+    "web_static/*.png",
 ]
 
 [tool.setuptools.data-files]

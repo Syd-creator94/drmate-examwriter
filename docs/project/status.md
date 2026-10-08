@@ -1,6 +1,96 @@
 # Статус Dr. Mate
 
-Обновлено: 5 августа 2026 года.
+Обновлено: 8 октября 2026 года (единое приватное приложение опубликовано).
+
+
+## Единое приложение — 08.10.2026
+
+- `USER_CONFIRMED`: реализован план единого owner-private Dr. Mate на существующем
+  Site Flux; договоры и границы: [канонический ADR-0016](</Users/artem_m/Documents/Lens Order Management/docs/adr/0016-unified-private-platform.md>).
+- `CODE_VERIFIED`: Sites v70 опубликована на
+  [прежнем адресе Flux](https://lens-order-management.afarbitnik.chatgpt.site).
+  Оболочка, настоящий Orders, нынешний Stage UI Clinic/CRM с серверным хранением,
+  общий реестр пациентов и Follow-up работают на одном origin. Новые приёмы
+  начинаются с пустых наблюдений, завершённые записи неизменяемы, исправления
+  имеют причину/автора. Автоматический перенос измерений в заказ не добавлен.
+- `CODE_VERIFIED`: Knowledge использует проверенный экспорт настоящего каталога
+  0.2.0 с версиями и источниками. Python/YAML в этом репозитории остаются
+  источником каталога; пациентские сведения в Knowledge не передаются.
+- Проверки реализации Sites: TypeScript, build, 184 теста; синтетическая браузерная
+  проверка Clinic/CRM/файлов/переходов/Knowledge. Восстановление резервной копии
+  выполнено отдельно; все 27 прежних таблиц с рабочими данными Flux сохранились.
+- `CODE_VERIFIED`: Safari Web App Dr. Mate установлен в Applications и Dock;
+  самостоятельный запуск, вход, навигация и перезапуск проверены. PDF отчёта Flux открыт в macOS Preview; реальные клинические файлы
+  в рабочем web app остаются ручной приёмкой. Старые сайты/прототипы сохранены.
+- Исходники выпуска: `/Users/artem_m/Documents/Lens Order Management/output/dr-mate-platform-20261008/source`.
+  Полный протокол выпуска: [статус Flux](</Users/artem_m/Documents/Lens Order Management/docs/project/status.md>).
+  Операция MIG не начата; роли сотрудников и clinical provenance в Orders — отдельно.
+
+## Реализация сворачивания Clinic — 15.09.2026
+
+- `CODE_VERIFIED`: в `outputs/clinic-site/workspace.js` раскрытые карточки имеют
+  явную обратную кнопку вместо оставшейся кнопки раскрытия. Возврат в обзор
+  сохраняет черновики, закрепления, предметный заголовок и цветовое семейство.
+- `CODE_VERIFIED`: «Итог приёма» возвращается как компактная карточка;
+  `revision.js` включает её в компоновку обзора. Полоса прокрутки нейтральная,
+  соответствует токенам Orders. Формы кнопок и базовые материалы сохранены.
+- В отдельном локальном `src/dr_mate_clinic_prototype/static/app.mjs` уточнены
+  подпись, подсказка и `aria-expanded` уже существующего сворачивания.
+- Проверки: статический Clinic пересобран; 17 UI-тестов в jsdom и 6 тестов
+  локального workspace проходят. Синтаксис локального приложения проверен.
+  Браузерная геометрия не проверялась; общая клиническая интеграция не добавлена.
+- Коммит статического Clinic: `266f6c612cfca4ec7c8115e10bfa712a082b28c4`
+  (отдельный репозиторий `outputs/clinic-site`). `CODE_VERIFIED`: после явного
+  разрешения пользователя опубликована Sites v7; deployment
+  `appgdep_6aa94eca40e48191bccb1c54280b77bd` завершён успешно.
+  [Живой Clinic](https://dr-mate-clinic-workspace.afarbitnik.chatgpt.site)
+  сохраняет доступ только владельца.
+
+## Сверка общих данных и рабочего пространства — 15.09.2026
+
+- `USER_CONFIRMED`: модули Dr. Mate должны использовать одни и те же данные там,
+  где применимо; конкретный пример — манифестная рефракция Clinic в Orders.
+  Подтверждены обратное сворачивание карточек в Clinic/Orders, преемственность
+  заголовков/цветов и сохранение принятой стилистики. Клинический контракт
+  и точная общая палитра ещё не приняты.
+- `USER_CONFIRMED`: основание заказа — исследование, по которому выполнен
+  его подбор. Ежегодные неизменённые повторы сохраняют прежнее основание;
+  новый подбор после washout использует новое исследование даже при одинаковых
+  цифрах. Это принятое правило; связь с источником в коде ещё не реализована.
+- `CODE_VERIFIED`: `src/dr_mate_core/models.py`, локальный
+  `src/dr_mate_clinic_prototype/static/model.mjs` и статический
+  `outputs/clinic-site` используют разные представления данных. Локальный
+  прототип сохраняет состояние в sessionStorage; статический — в localStorage.
+  Проверенные пути не предоставляют рабочий versioned observation API для Orders.
+- `CODE_VERIFIED`: локальный workspace возвращает сохранённое состояние;
+  статический Clinic имеет частичное сворачивание через `data-mode="overview"`.
+  Наличие одного механизма не доказывает единое поведение всех карточек.
+- Узкая проверка: 6 тестов `tests/clinic_prototype/workspace.test.mjs` и
+  16 тестов `outputs/clinic-site/test.mjs` проходят. Последние проверяют
+  существующий build в jsdom, без браузерной геометрии; он не пересобирался.
+  Полная сборка, эксплуатационная валидация и новая интеграция не проверялись.
+
+
+## Проверенный UX-прототип Clinic — 10.09.2026
+
+- `CODE_VERIFIED`: добавлен отдельный `src/dr_mate_clinic_prototype`, доступный
+  локально на `127.0.0.1:8766`. Он демонстрирует синтетическую карту пациента,
+  текущую коррекцию и её историю, измерения, заключение и локальный follow-up.
+- `CODE_VERIFIED`: реализованы плотная Mechanicus-компоновка без ромба,
+  управляемый фокус, выбор осмотра отдельно от открытия, параллельный просмотр
+  осмотров/учебных материалов, раскрытие с возвратом, светлая/тёмная/авто темы.
+- `CODE_VERIFIED`: поиск внутри учебной карты находит осмотры и встроенные
+  материалы, включая синонимы `перерыв`/`washout` и `ОКТ`/`OCT`. Flex-параметры
+  относятся к конкретной коррекции и глазу; исторические снимки сохраняются.
+- `CODE_VERIFIED`: профильные Node-проверки — `12 passed`; весь Python-набор —
+  `41 passed`; Ruff, mypy и сборка прошли. Wheel содержит ресурсы прототипа.
+  Выбор, фокус, сравнение, поиск, Flex и темы проверены в браузере Codex.
+- `CODE_VERIFIED`: клинические данные прототипа сохраняются лишь как учебное
+  состояние вкладки (`sessionStorage`), предпочтение темы — в `localStorage`.
+  Сервер не принимает записей; API runtime, реальные приборы, реестр пациентов,
+  OCR/PDF-архив, общий Follow-up и clinical decision support не подключены.
+- Объём, сценарий запуска и ограничения проверок:
+  [Clinic UX prototype](../../tools/clinic-prototype/README.md).
 
 ## Текущее состояние
 
@@ -14,6 +104,13 @@
 - `CODE_VERIFIED`: текущий код реализует ранний ExamWriter -> MedicalRecord -> HTML/PDF-прототип.
 - `CODE_VERIFIED`: после переноса исходный набор тестов прошёл полностью — `6 passed`.
 - `DECIDED`: база контактных линз включена в направление Dr. Mate как отдельная ограниченная функция.
+- `USER_CONFIRMED`: принята платформенная архитектура Knowledge + private Clinic
+  runtime с отдельными CRM, Orders и Connect; Knowledge не принимает patient
+  payload.
+- `USER_CONFIRMED`: CRM администратора и shadow-mode
+  `orthok_washout_assessment` включены в дорожную карту, но не реализованы.
+- `DECIDED`: automatic product/parameter selection остаётся вне MVP; versioned
+  clinical observations и protocol runs закладываются как будущий фундамент.
 - `DECIDED`: X-Cel будет первым пилотным источником каталога.
 - `DECIDED`: рецензируемые YAML-записи являются источником каталога и rules; Pydantic является исполняемым контрактом схемы.
 - `DECIDED`: matching использует декларативные правила с состояниями `true`, `false`, `unknown`, без скрытого скоринга и произвольного кода.
@@ -48,6 +145,15 @@
 - `DEFERRED`: противопоказания не кодируются до проверки package inserts.
 - `OUT_OF_SCOPE`: доступность и регистрационный статус в Казахстане.
 - `UNKNOWN`: эксплуатационная и клиническая валидация существующего ExamWriter-прототипа на реальных обезличенных данных.
+- `CODE_VERIFIED`: private clinical runtime, patient persistence, CRM,
+  knowledge-package manifest и protocol execution в текущем коде отсутствуют.
+- `CODE_VERIFIED`: добавлен воспроизводимый macOS launcher, который проверяет
+  локальный Knowledge health endpoint, при необходимости запускает read-only
+  справочник и открывает Orders, Knowledge и живую проектную доску. Shell,
+  Info.plist и ad-hoc code signature собранного приложения проверены; launcher
+  не содержит patient data.
+- `UNKNOWN`: permission matrix, retention, deployment topology и clinical
+  validation washout assessment.
 
 ## Выполненная проверка
 
@@ -91,4 +197,8 @@
 
 ## Следующее точное действие
 
-Проверить GitHub Actions и выполнить review/merge feature-ветки, затем собрать 5–10 обезличенных реальных ExamWriter RTF и для каждого зафиксировать ожидаемый JSON fixture. Контракт встраивания `MatchContext` по-прежнему требует отдельного change preview и ADR.
+Проверить GitHub Actions и выполнить review/merge feature-ветки, затем принять
+минимальный privacy/authorization contract приватного Clinic runtime и
+спроектировать knowledge-package manifest. Первый protocol runner создавать
+только после отдельного preview clinical observation schema и review критериев
+`orthok_washout_assessment`.
